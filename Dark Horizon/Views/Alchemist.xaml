@@ -1,0 +1,162 @@
+﻿<UserControl x:Class="Dark_Horizon.Views.Alchemist"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Dark_Horizon"
+             xmlns:views="clr-namespace:Dark_Horizon.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="1080" d:DesignWidth="1920"
+             FontFamily="pack://application:,,,/Assets/Fonts/#7:12 Serif Regular"
+             RenderOptions.BitmapScalingMode="NearestNeighbor">
+
+    <UserControl.Resources>
+        <Style x:Key="TransparentPixelButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="0.8"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Opacity" Value="0.5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Background="Transparent">
+        <Image Source="pack://application:,,,/Assets/Images/Backgrounds/Alchemist.png" 
+               Stretch="Fill" 
+               RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="50,0">
+                <TextBlock Text="АЛХІМІК" Foreground="White" FontSize="36" FontWeight="Bold" VerticalAlignment="Center"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,200,0">
+                        <Image Source="pack://application:,,,/Assets/Images/Items/Gold.png" 
+                               Width="32" Height="32" 
+                               RenderOptions.BitmapScalingMode="NearestNeighbor" 
+                               Margin="0,0,10,0" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="TxtPlayerGold" Text="0" Foreground="White" FontSize="26" FontWeight="Bold" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="2" Margin="40,20,40,20">
+
+                <Grid x:Name="GridBuyMenu" Visibility="Visible">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="ДОСТУПНІ ЗІЛЛЯ" Foreground="White" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,10"/>
+
+                    <ListBox x:Name="LstPotionStock" 
+                             Grid.Row="1" 
+                             Background="Transparent" 
+                             BorderThickness="0" 
+                             HorizontalAlignment="Center"
+                             Width="900" 
+                             Margin="0,30,0,0" 
+                             RenderOptions.BitmapScalingMode="NearestNeighbor">
+
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <ContentPresenter />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="0" Padding="8" Width="860">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid Grid.Column="0" Width="56" Height="56" VerticalAlignment="Center" Margin="0,0,15,0">
+                                            <Image Source="{Binding IconPath}" 
+                                                   Stretch="None" 
+                                                   RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                                   UseLayoutRounding="True"
+                                                   SnapsToDevicePixels="True"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center">
+                                                <Image.LayoutTransform>
+                                                    <ScaleTransform ScaleX="3" ScaleY="3"/>
+                                                </Image.LayoutTransform>
+                                            </Image>
+                                        </Grid>
+
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Name}" Foreground="White" FontSize="18" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding Description}" Foreground="White" Opacity="0.7" FontSize="12" TextWrapping="Wrap" Margin="0,3,0,0"/>
+                                        </StackPanel>
+
+                                        <TextBlock Grid.Column="2" Text="{Binding Price}" Foreground="White" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Margin="25,0"/>
+
+                                        <Grid Grid.Column="3" Width="158" Height="26" VerticalAlignment="Center">
+                                            <Image Source="pack://application:,,,/Assets/Images/UI/Button.png" 
+                                                   Stretch="Fill" 
+                                                   RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                                   UseLayoutRounding="True"
+                                                   SnapsToDevicePixels="True"/>
+                                            <Button Content="Купити" Style="{StaticResource TransparentPixelButtonStyle}" FontSize="14" FontWeight="Bold" Click="BtnInlineBuy_Click" Cursor="Hand"/>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="3" Width="316" Height="52" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image Source="pack://application:,,,/Assets/Images/UI/Button.png" 
+                       Stretch="Fill" 
+                       RenderOptions.BitmapScalingMode="NearestNeighbor"
+                       UseLayoutRounding="True"
+                       SnapsToDevicePixels="True"/>
+                <Button Content="Повернутись до міста" Style="{StaticResource TransparentPixelButtonStyle}" FontSize="20" FontWeight="Bold" Click="BtnBackToTown_Click" Cursor="Hand"/>
+            </Grid>
+
+        </Grid>
+
+        <!-- HUD (завжди видимий, окрім бою) -->
+        <views:HudPanel x:Name="Hud"
+                        HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                        CurrentLocationKey="Town"/>
+    </Grid>
+</UserControl>

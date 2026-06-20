@@ -1,0 +1,149 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+	  <NETCoreSdkAllowPrereleaseLinks>true</NETCoreSdkAllowPrereleaseLinks>
+	  <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+	  <LangVersion>preview</LangVersion>
+	  <UseSdkRoslyn>true</UseSdkRoslyn>
+	  <RootNamespace>Dark_Horizon</RootNamespace>
+      <Nullable>enable</Nullable>
+      <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\Audio\Anxious Heart.mp3" />
+    <None Remove="Assets\Audio\Anxious_Heart.mp3" />
+    <None Remove="Assets\Audio\Shake_It_Off.mp3" />
+    <None Remove="Assets\Fonts\712 Serif.ttf" />
+    <None Remove="Assets\Fonts\712.ttf" />
+    <None Remove="Assets\Fonts\Logo.png" />
+    <None Remove="Assets\Images\Backgrounds\Alchemist.png" />
+    <None Remove="Assets\Images\Backgrounds\Background.png" />
+    <None Remove="Assets\Images\Backgrounds\Forest.png" />
+    <None Remove="Assets\Images\Backgrounds\Forge.png" />
+    <None Remove="Assets\Images\Backgrounds\Menu art.png" />
+    <None Remove="Assets\Images\Backgrounds\Outskirt.png" />
+    <None Remove="Assets\Images\Backgrounds\Swamp.png" />
+    <None Remove="Assets\Images\Characters\MElf.png" />
+    <None Remove="Assets\Images\Characters\MHuman.png" />
+    <None Remove="Assets\Images\Characters\MOrc.png" />
+    <None Remove="Assets\Images\Characters\WElf.png" />
+    <None Remove="Assets\Images\Characters\WHuman.png" />
+    <None Remove="Assets\Images\Characters\WOrc.png" />
+    <None Remove="Assets\Images\Items\Bread.png" />
+    <None Remove="Assets\Images\Items\ChainmailArmor.png" />
+    <None Remove="Assets\Images\Items\Dagger.png" />
+    <None Remove="Assets\Images\Items\Gold.png" />
+    <None Remove="Assets\Images\Items\HealPotion.png" />
+    <None Remove="Assets\Images\Items\IronSword.png" />
+    <None Remove="Assets\Images\Items\LeatherArmor.png" />
+    <None Remove="Assets\Images\Items\Meat.png" />
+    <None Remove="Assets\Images\Items\RustySword.png" />
+    <None Remove="Assets\Images\UI\ArrowD.png" />
+    <None Remove="Assets\Images\UI\ArrowL.png" />
+    <None Remove="Assets\Images\UI\ArrowR.png" />
+    <None Remove="Assets\Images\UI\ArrowU.png" />
+    <None Remove="Assets\Images\UI\Button.png" />
+    <None Remove="Assets\Images\UI\ComboBox.png" />
+    <None Remove="Assets\Images\UI\Dropdown.png" />
+    <None Remove="Assets\Images\UI\ExitButton.png" />
+    <None Remove="Assets\Images\UI\HeroBackground.png" />
+    <None Remove="Assets\Images\UI\HeroCreateBackground.png" />
+    <None Remove="Assets\Images\UI\LoudButton.png" />
+    <None Remove="Assets\Images\UI\Menu.png" />
+    <None Remove="Assets\Images\UI\MenuButton.png" />
+    <None Remove="Assets\Images\UI\Name.png" />
+    <None Remove="Assets\Images\UI\NewGameButton.png" />
+    <None Remove="Assets\Images\UI\Settings.png" />
+    <None Remove="Assets\Images\UI\SettingsButton.png" />
+    <None Remove="Assets\Images\UI\Slot.png" />
+    <None Remove="Assets\Images\UI\SlotOver.png" />
+    <None Remove="Assets\Images\UI\SlotSelect.png" />
+    <None Remove="Assets\Images\UI\TextTipe.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Audio\Shake_It_Off.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Audio\Anxious_Heart.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Assets\Fonts\712 Serif.ttf" />
+    <Resource Include="Assets\Fonts\Logo.png" />
+    <Resource Include="Assets\Images\Backgrounds\Alchemist.png" />
+    <Resource Include="Assets\Images\Backgrounds\Background.png" />
+    <Resource Include="Assets\Images\Backgrounds\Forest.png" />
+    <Resource Include="Assets\Images\Backgrounds\Forge.png" />
+    <Resource Include="Assets\Images\Backgrounds\Menu art.png" />
+    <Resource Include="Assets\Images\Backgrounds\Outskirt.png" />
+    <Resource Include="Assets\Images\Backgrounds\Swamp.png" />
+    <Resource Include="Assets\Images\Backgrounds\Town.png" />
+    <Resource Include="Assets\Images\Characters\MElf.png" />
+    <Resource Include="Assets\Images\Characters\MHuman.png" />
+    <Resource Include="Assets\Images\Characters\MOrc.png" />
+    <Resource Include="Assets\Images\Characters\WElf.png" />
+    <Resource Include="Assets\Images\Characters\WHuman.png" />
+    <Resource Include="Assets\Images\Characters\WOrc.png" />
+    <Resource Include="Assets\Images\Items\Bread.png" />
+    <Resource Include="Assets\Images\Items\ChainmailArmor.png" />
+    <Resource Include="Assets\Images\Items\Dagger.png" />
+    <Resource Include="Assets\Images\Items\Gold.png" />
+    <Resource Include="Assets\Images\Items\HealPotion.png" />
+    <Resource Include="Assets\Images\Items\IronSword.png" />
+    <Resource Include="Assets\Images\Items\LeatherArmor.png" />
+    <Resource Include="Assets\Images\Items\Meat.png" />
+    <Resource Include="Assets\Images\Items\RustySword.png" />
+    <Resource Include="Assets\Images\UI\ArrowD.png" />
+    <Resource Include="Assets\Images\UI\ArrowL.png" />
+    <Resource Include="Assets\Images\UI\ArrowR.png" />
+    <Resource Include="Assets\Images\UI\ArrowU.png" />
+    <Resource Include="Assets\Images\UI\Button.png" />
+    <Resource Include="Assets\Images\UI\ComboBox.png" />
+    <Resource Include="Assets\Images\UI\Dropdown.png" />
+    <Resource Include="Assets\Images\UI\ExitButton.png" />
+    <Resource Include="Assets\Images\UI\HeroBackground.png" />
+    <Resource Include="Assets\Images\UI\HeroCreateBackground.png" />
+    <Resource Include="Assets\Images\UI\LoudButton.png" />
+    <Resource Include="Assets\Images\UI\Menu.png" />
+    <Resource Include="Assets\Images\UI\MenuButton.png" />
+    <Resource Include="Assets\Images\UI\Name.png" />
+    <Resource Include="Assets\Images\UI\NewGameButton.png" />
+    <Resource Include="Assets\Images\UI\Settings.png" />
+    <Resource Include="Assets\Images\UI\SettingsButton.png" />
+    <Resource Include="Assets\Images\UI\Slot.png" />
+    <Resource Include="Assets\Images\UI\SlotOver.png" />
+    <Resource Include="Assets\Images\UI\SlotSelect.png" />
+    <Resource Include="Assets\Images\UI\TextTipe.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.9">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>

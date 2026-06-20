@@ -1,0 +1,62 @@
+[
+  {
+    "Id": 1,
+    "Name": "Вовк",
+    "Type": "Wolf",
+    "Health": 40,
+    "Level": 2,
+    "Damage": 8,
+    "Defense": 2,
+    "GoldDrop": 5,
+    "ExpDrop": 15,
+    "Locations": [ "Forest" ]
+  },
+  {
+    "Id": 2,
+    "Name": "Розбійник",
+    "Type": "Bandit",
+    "Health": 55,
+    "Level": 2,
+    "Damage": 12,
+    "Defense": 4,
+    "GoldDrop": 15,
+    "ExpDrop": 20,
+    "Locations": [ "Forest" ]
+  },
+  {
+    "Id": 3,
+    "Name": "Скелет",
+    "Type": "Skeleton",
+    "Health": 45,
+    "Level": 3,
+    "Damage": 10,
+    "Defense": 6,
+    "GoldDrop": 8,
+    "ExpDrop": 18,
+    "Locations": [ "Forest", "Swamp" ]
+  },
+  {
+    "Id": 4,
+    "Name": "Слизняк",
+    "Type": "Slug",
+    "Health": 60,
+    "Level": 4,
+    "Damage": 7,
+    "Defense": 3,
+    "GoldDrop": 6,
+    "ExpDrop": 20,
+    "Locations": [ "Swamp" ]
+  },
+  {
+    "Id": 5,
+    "Name": "Огр",
+    "Type": "Ogre",
+    "Health": 120,
+    "Level": 5,
+    "Damage": 20,
+    "Defense": 8,
+    "GoldDrop": 30,
+    "ExpDrop": 50,
+    "Locations": [ "Swamp" ]
+  }
+]

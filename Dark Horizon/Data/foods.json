@@ -1,0 +1,26 @@
+[
+  {
+    "Id": 1,
+    "Name": "Хліб",
+    "Description": "Відновлює трохи HP.",
+    "Price": 5,
+    "HealAmount": 20,
+    "StaminaAmount": 0
+  },
+  {
+    "Id": 2,
+    "Name": "М'ясо",
+    "Description": "Ситна їжа. Відновлює HP і сили.",
+    "Price": 15,
+    "HealAmount": 40,
+    "StaminaAmount": 20
+  },
+  {
+    "Id": 3,
+    "Name": "Зілля здоров'я",
+    "Description": "Повністю відновлює HP.",
+    "Price": 50,
+    "HealAmount": 999,
+    "StaminaAmount": 0
+  }
+]

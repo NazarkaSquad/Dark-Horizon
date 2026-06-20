@@ -1,0 +1,26 @@
+[
+  {
+    "Id": 1,
+    "Name": "Іржавий меч",
+    "Description": "Старий меч. Краще ніж нічого.",
+    "Price": 20,
+    "Damage": 10,
+    "RequiredLevel": 1
+  },
+  {
+    "Id": 2,
+    "Name": "Сталевий меч",
+    "Description": "Надійний меч середньої якості.",
+    "Price": 80,
+    "Damage": 25,
+    "RequiredLevel": 3
+  },
+  {
+    "Id": 3,
+    "Name": "Кинджал",
+    "Description": "Швидка зброя. Ідеальна для злодія.",
+    "Price": 60,
+    "Damage": 18,
+    "RequiredLevel": 2
+  }
+]
