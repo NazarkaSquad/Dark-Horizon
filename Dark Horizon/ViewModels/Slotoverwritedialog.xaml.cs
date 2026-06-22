@@ -10,7 +10,7 @@ namespace Dark_Horizon
         public SlotOverwriteDialog(SaveData save)
         {
             InitializeComponent();
-            TxtInfo.Text = $"{save.PlayerName}  ·  {save.PlayerRace}  ·  {save.PlayerClass}  ·  Рівень {save.Level}";
+            TxtInfo.Text = $"{save.PlayerName}  ·  Рівень {save.Level}";
             TxtDate.Text = $"Збережено: {save.SavedAt:dd.MM.yyyy  HH:mm}";
         }
 

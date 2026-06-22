@@ -33,6 +33,8 @@
     <None Remove="Assets\Images\Characters\WElf.png" />
     <None Remove="Assets\Images\Characters\WHuman.png" />
     <None Remove="Assets\Images\Characters\WOrc.png" />
+    <None Remove="Assets\Images\Enemies\Slime.png" />
+    <None Remove="Assets\Images\Enemies\Wolf.png" />
     <None Remove="Assets\Images\Items\Bread.png" />
     <None Remove="Assets\Images\Items\ChainmailArmor.png" />
     <None Remove="Assets\Images\Items\Dagger.png" />
@@ -91,6 +93,8 @@
     <Resource Include="Assets\Images\Characters\WElf.png" />
     <Resource Include="Assets\Images\Characters\WHuman.png" />
     <Resource Include="Assets\Images\Characters\WOrc.png" />
+    <Resource Include="Assets\Images\Enemies\Slime.png" />
+    <Resource Include="Assets\Images\Enemies\Wolf.png" />
     <Resource Include="Assets\Images\Items\Bread.png" />
     <Resource Include="Assets\Images\Items\ChainmailArmor.png" />
     <Resource Include="Assets\Images\Items\Dagger.png" />
