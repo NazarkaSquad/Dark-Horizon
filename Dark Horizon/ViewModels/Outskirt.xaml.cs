@@ -21,14 +21,6 @@ namespace Dark_Horizon.Views;
         }
 
         // Нижня стрілочка
-            MessageBox.Show("Тут буде перехід в праву локацію!");
-        }
-
-        // Нижня стрілочка
-            MessageBox.Show("Тут буде перехід в праву локацію!");
-        }
-
-        // Нижня стрілочка
         private void BtnToBottomLoc_Click(object sender, RoutedEventArgs e)
         {
             if (Application.Current.MainWindow is MainWindow mainWindow)
