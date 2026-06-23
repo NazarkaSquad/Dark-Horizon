@@ -14,7 +14,6 @@ public abstract class Character
 
     public bool IsAlive => Health > 0;
 
-    // Відновлює HP, не виходячи за MaxHealth. Повертає скільки реально відновлено.
     public int Heal(int amount)
     {
         if (amount <= 0 || !IsAlive) return 0;

@@ -7,21 +7,12 @@ public enum PlayerClass { Warrior, Mage, Rogue }
 
 public class Player : Character
 {
-    // ВИПРАВЛЕНО: Прибрано "new int Health", який ламав логіку і викликав варнінги
-    // ВИПРАВЛЕНО: Прибрано дубльований "Level" — він уже є в базовому класі Character
-    // (раніше Player.Level приховував (shadowed) Character.Level, що давало
-    // компіляторний warning CS0108 і ризик розсинхрону, якщо десь Player
-    // використовується через посилання типу Character)
-
     public int Experience { get; set; } = 0;
     public int Gold { get; set; } = 100;
     public int Stamina { get; set; } = 100;
     public int MaxStamina { get; set; } = 100;
     public Inventory Inventory { get; set; } = new Inventory();
 
-    // ── Екіпірування ─────────────────────────────────────────────────────────
-    // Базові характеристики без урахування екіпіровки (потрібні, щоб можна було
-    // знімати/міняти зброю чи броню без накопичення бонусів)
     public int BaseAttack { get; private set; }
     public int BaseDefense { get; private set; }
 
@@ -34,7 +25,7 @@ public class Player : Character
     {
         Name = name;
         MaxHealth = 100;
-        Health = 100; // ВИПРАВЛЕНО: замість CurrentHealth
+        Health = 100;
         Attack = 15;
         Defense = 5;
         Speed = 10;
@@ -46,7 +37,7 @@ public class Player : Character
     {
         Name = name;
         MaxHealth = maxHealth;
-        Health = maxHealth; // ВИПРАВЛЕНО: замість CurrentHealth
+        Health = maxHealth;
         Attack = attack;
         Defense = defense;
         Speed = speed;
@@ -54,7 +45,6 @@ public class Player : Character
         BaseDefense = Defense;
     }
 
-    // Одягає зброю (замінює попередню, якщо була). Стара зброя лишається в інвентарі.
     public void EquipWeapon(Weapon weapon)
     {
         EquippedWeapon = weapon;

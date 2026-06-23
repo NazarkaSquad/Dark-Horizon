@@ -1,5 +1,5 @@
 ﻿using Dark_Horizon.Views;
-using Dark_Horizon.Classes.Core.Database; // Щоб бачити SaveManager
+using Dark_Horizon.Classes.Core.Database;
 using Dark_Horizon.Classes.Core;
 using System;
 using System.Linq;
@@ -40,30 +40,25 @@ namespace Dark_Horizon.Views
 
             var existingSave = _saveManager.Load(slotNumber);
 
-            // Зберігаємо вибраний слот у GameState
             GameState.SelectedSlot = slotNumber;
 
             if (existingSave == null)
             {
-                // Слот порожній → йдемо на створення персонажа
                 OnCharacterCreateRequested?.Invoke(this, EventArgs.Empty);
             }
             else
             {
-                // Слот зайнятий → запитуємо: Нова гра чи Завантажити?
                 var dialog = new SlotOverwriteDialog(existingSave);
                 dialog.Owner = mainWindow;
                 var result = dialog.ShowDialog();
 
                 if (result == true && dialog.ChoiceIsNew)
                 {
-                    // Гравець хоче нову гру поверх старого сейву
                     _saveManager.Delete(slotNumber);
                     OnCharacterCreateRequested?.Invoke(this, EventArgs.Empty);
                 }
                 else if (result == true && !dialog.ChoiceIsNew)
                 {
-                    // Завантажити стару гру
                     Classes.Core.GameManager.Instance.LoadFromSave(existingSave);
                     mainWindow.StartTransition(new Town());
                 }

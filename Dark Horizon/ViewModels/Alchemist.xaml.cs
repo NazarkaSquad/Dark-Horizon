@@ -43,7 +43,6 @@ namespace Dark_Horizon.Views
 
         private void LoadCatalog()
         {
-            // Якщо каталог порожній — просто додаємо наше єдине зілля
             if (_market.Stock == null || _market.Stock.Count == 0)
             {
                 _market.AddToStock(new Food(
@@ -60,7 +59,6 @@ namespace Dark_Horizon.Views
 
         private void RefreshMarketUI()
         {
-            // Оскільки тут НІЧОГО крім зіль немає, просто перетворюємо весь Stock у список
             LstPotionStock.ItemsSource = _market.Stock.ToList();
         }
 
@@ -70,7 +68,6 @@ namespace Dark_Horizon.Views
             {
                 string resultMessage = _market.Buy(_player, selectedItem);
 
-                // Твоя логіка нескінченного товару
                 if (!_market.Stock.Contains(selectedItem))
                 {
                     _market.AddToStock(selectedItem);

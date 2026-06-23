@@ -2,7 +2,7 @@
 {
     public class SaveData
     {
-        public int Id { get; set; }          // 1, 2, або 3 (слот)
+        public int Id { get; set; }
         public string PlayerName { get; set; } = "";
         public string PlayerClass { get; set; } = "";
         public string PlayerRace { get; set; } = "";
@@ -11,7 +11,7 @@
         public int Gold { get; set; }
         public int Level { get; set; }
         public string CurrentLocation { get; set; } = "";
-        public string InventoryJson { get; set; } = "[]"; // JSON список предметів
+        public string InventoryJson { get; set; } = "[]";
         public DateTime SavedAt { get; set; } = DateTime.Now;
     }
 }

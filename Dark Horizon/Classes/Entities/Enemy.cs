@@ -7,7 +7,7 @@ public class Enemy : Character
 {
     public int RewardExp  { get; set; }
     public int RewardGold { get; set; }
-    // Назва спрайту ворога (ключ для відображення в UI)
+
     public string SpriteKey { get; set; } = "";
 
     public Enemy() : base() { }
@@ -28,7 +28,6 @@ public class Enemy : Character
         SpriteKey = spriteKey;
     }
 
-    // ── Фабричні методи ─────────────────────────────────
     public static Enemy CreateSlug()     => new("Слимак",   30,  5,  2,  3, 10,  8, 1, "Slime");
     public static Enemy CreateWolf()     => new("Вовк",     50, 12,  4,  8, 25, 15, 2, "Wolf");
     public static Enemy CreateBandit()   => new("Бандит",   70, 15,  5,  7, 40, 20, 3, "Bandit");
@@ -37,7 +36,6 @@ public class Enemy : Character
     public static Enemy CreateOgre()     => new("Огр",     150, 25, 10,  4,100, 50, 5, "Ogre");
     public static Enemy CreateWitch()    => new("Відьма",   80, 20,  4,  6, 55, 28, 4, "Witch");
 
-    // ── Пули ворогів по локаціях ─────────────────────────
     public static List<Enemy> ForestPool() => new()
     {   
         CreateWolf(), CreateWolf(), CreateBandit(),

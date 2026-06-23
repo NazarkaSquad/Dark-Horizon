@@ -9,17 +9,14 @@ namespace Dark_Horizon.Views
 {
     public partial class Charactercreatescreen : UserControl
     {
-        // Поточний вибір
         private string _selectedRace = "Human";
         private string _selectedGender = "Male";
         private string _selectedClass = "Warrior";
 
-        // Всі кнопки груп для перемикання стилів
         private Button[] _raceBtns = null!;
         private Button[] _genderBtns = null!;
         private Button[] _classBtns = null!;
 
-        // Описи та статистика класів
         private static readonly Dictionary<string, (string Desc, int HP, int Atk, int Def)> ClassData = new()
         {
             ["Warrior"] = ("Фронтовий боєць у важкій броні. Висока витривалість і захист. Ідеальний для новачків.", 150, 17, 6),
@@ -53,7 +50,6 @@ namespace Dark_Horizon.Views
             RefreshClassInfo();
         }
 
-        // ─── РАСА ───────────────────────────────────────────────────────────
 
         private void Race_Click(object sender, RoutedEventArgs e)
         {
@@ -63,7 +59,6 @@ namespace Dark_Horizon.Views
             UpdateCharacterSprite();
         }
 
-        // ─── СТАТЬ ──────────────────────────────────────────────────────────
 
         private void Gender_Click(object sender, RoutedEventArgs e)
         {
@@ -72,7 +67,6 @@ namespace Dark_Horizon.Views
             UpdateCharacterSprite();
         }
 
-        // ─── КЛАС ───────────────────────────────────────────────────────────
 
         private void Class_Click(object sender, RoutedEventArgs e)
         {
@@ -91,24 +85,18 @@ namespace Dark_Horizon.Views
             TxtDef.Text = def.ToString();
         }
 
-        // ─── ОНОВЛЕННЯ СПРАЙТУ ──────────────────────────────────────────────
 
         private void UpdateCharacterSprite()
         {
-            // 1. Визначаємо першу літеру: M для чоловіка, W для жінки
             string genderPrefix = _selectedGender == "Male" ? "M" : "W";
 
-            // 2. Формуємо назву файлу (наприклад, "MHuman.png" або "WElf.png")
             string fileName = $"{genderPrefix}{_selectedRace}.png";
 
-            // 3. Вказуємо шлях до папки, куди ви поклали файли
             string uriString = $"pack://application:,,,/Assets/Images/Characters/{fileName}";
 
-            // 4. Завантажуємо картинку в контрол (дивіться нижче, що додати в XAML)
             PlayerSprite.Source = new System.Windows.Media.Imaging.BitmapImage(new Uri(uriString));
         }
 
-        // ─── ДОПОМІЖНИЙ МЕТОД: підсвітка активної кнопки ───────────────────
 
         private void HighlightActive(Button[] group, Button active)
         {
@@ -119,14 +107,12 @@ namespace Dark_Horizon.Views
                 btn.Style = btn == active ? activeStyle : normalStyle;
         }
 
-        // ─── ПОЧАТИ ГРУ ─────────────────────────────────────────────────────
 
         private void BtnStartGame_Click(object sender, RoutedEventArgs e)
         {
             string name = TxtPlayerName.Text.Trim();
             if (string.IsNullOrWhiteSpace(name)) name = "Безіменний";
 
-            // Конвертація рядка в enum
             var raceType = _selectedRace switch
             {
                 "Orc" => RaceType.Orc,
@@ -134,25 +120,20 @@ namespace Dark_Horizon.Views
                 _ => RaceType.Human,
             };
 
-            // Тільки 3 класи зараз підтримуються у Player.cs
-            // Нові класи треба додати у PlayerClass enum та Player.cs
             var playerClass = _selectedClass switch
             {
                 "Rogue" => PlayerClass.Rogue,
                 "Mage" => PlayerClass.Mage,
-                "Paladin" => PlayerClass.Warrior,   // тимчасово, поки не додали
-                "Archer" => PlayerClass.Rogue,     // тимчасово
-                "Necromancer" => PlayerClass.Mage,      // тимчасово
+                "Paladin" => PlayerClass.Warrior,
+                "Archer" => PlayerClass.Rogue,
+                "Necromancer" => PlayerClass.Mage,
                 _ => PlayerClass.Warrior,
             };
 
-            // Стартуємо гру
             GameManager.Instance.StartGame(name, playerClass, raceType);
 
-            // Зберігаємо в обраний слот відразу
             GameState.SaveCurrentGame("Місто");
 
-            // Переходимо в місто
             if (Application.Current.MainWindow is MainWindow mainWindow)
                 mainWindow.StartTransition(new Town());
         }

@@ -22,8 +22,6 @@ public class SaveManager
     }
 
     private static string GetPath(int slot) => Path.Combine(SavesFolder, $"save_{slot}.json");
-
-    // Основний метод збереження для Gamestate.cs (Рядок 73)
     public void Save(int slot, Player player, string locationName)
     {
         try
@@ -32,7 +30,7 @@ public class SaveManager
             {
                 Id = slot,
                 PlayerName = player.Name,
-                PlayerClass = "Warrior", // Тимчасовий дефолт або з player.ClassName
+                PlayerClass = "Warrior",
                 PlayerRace = "Human",
                 Health = player.Health,
                 MaxHealth = player.MaxHealth,
@@ -52,13 +50,11 @@ public class SaveManager
         catch { }
     }
 
-    // Перевантаження на випадок збереження без вказання локації
     public void Save(int slot, Player player)
     {
         Save(slot, player, "Town");
     }
 
-    // Для SlotSelectScreen — зчитування всіх існуючих слотів
     public List<SaveData> GetAllSaves()
     {
         var saves = new List<SaveData>();
@@ -106,7 +102,6 @@ public class SaveManager
         }
     }
 
-    // Старі асинхронні методи для зворотної сумісності (якщо викликаються в іншому місці двигуна)
     public async Task SavePlayerAsync(Player player)
     {
         try

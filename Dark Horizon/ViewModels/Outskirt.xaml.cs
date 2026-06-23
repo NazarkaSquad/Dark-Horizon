@@ -12,7 +12,6 @@ namespace Dark_Horizon.Views;
             GameManager.Instance.LocationManager.SetCurrentLocation(LocationType.Outskirt);
         }
 
-        // Стрілочка вгору — повернення в місто
         private void BtnToCity_Click(object sender, RoutedEventArgs e)
         {
             if (Application.Current.MainWindow is MainWindow mainWindow)
@@ -21,20 +20,16 @@ namespace Dark_Horizon.Views;
             }
         }
 
-        // Ліва стрілочка
         private void BtnToLeftLoc_Click(object sender, RoutedEventArgs e)
         {
-            // Тут буде, наприклад: mainWindow.MainContentArea.Content = new LeftForestControl();
             MessageBox.Show("Тут буде перехід в ліву локацію!");
         }
 
-        // Права стрілочка
         private void BtnToRightLoc_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Тут буде перехід в праву локацію!");
         }
 
-        // Нижня стрілочка
         private void BtnToBottomLoc_Click(object sender, RoutedEventArgs e)
         {
             if (Application.Current.MainWindow is MainWindow mainWindow)

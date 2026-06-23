@@ -2,9 +2,9 @@ namespace Dark_Horizon.Classes.Core;
 
 public enum EffectType
 {
-    Bleeding,    // Завдає шкоди кожен хід
-    Stun,        // Пропуск ходу
-    Shield       // Додатковий захист, який поглинає шкоду
+    Bleeding,  
+    Stun,    
+    Shield     
 }
 
 public class Effect
@@ -22,6 +22,5 @@ public class Effect
         Name = name;
     }
 
-    // Створює глибоку копію ефекту для накладання на персонажа
     public Effect Clone() => new(Type, Value, TurnsLeft, Name);
 }

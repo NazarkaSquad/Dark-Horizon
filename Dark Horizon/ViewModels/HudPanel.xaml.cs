@@ -8,7 +8,6 @@ namespace Dark_Horizon.Views;
 
 public partial class HudPanel : UserControl
 {
-    // Яку локацію повернути після бою (Forest або Swamp)
     public string CurrentLocationKey { get; set; } = "Forest";
 
     public HudPanel()
@@ -34,17 +33,14 @@ public partial class HudPanel : UserControl
 
     private void BtnAdventure_Click(object sender, RoutedEventArgs e)
     {
-        // Перевіряємо, чи можна починати бій
         string? error = GameManager.Instance.StartAdventure();
 
         if (error != null)
         {
-            // Мирна зона або інша причина — показати toast
             ShowToast(error);
             return;
         }
 
-        // Бій успішно розпочато — переходимо на Battle View
         if (Application.Current.MainWindow is MainWindow mw)
         {
             mw.StartTransition(new Battle(CurrentLocationKey));

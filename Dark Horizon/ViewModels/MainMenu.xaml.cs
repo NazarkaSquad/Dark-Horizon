@@ -19,7 +19,6 @@ public partial class MainMenu : UserControl
         SlotSelectPanel.OnCharacterCreateRequested += SlotSelectPanel_OnCharacterCreateRequested;
         CharacterCreatePanel.OnBackClosed += CharacterCreatePanel_OnBackClosed;
 
-        // Зупиняємо автозбереження, коли ми в головному меню
         GameState.StopAutoSave();
     }
 
@@ -29,7 +28,6 @@ public partial class MainMenu : UserControl
             ToggleSettings();
     }
 
-    // ── Нова гра → вибір слоту ───────────────────────────────────────────────
     private void BtnPlay_Click(object sender, RoutedEventArgs e)
     {
         ToggleSlotSelect(true);
@@ -37,7 +35,7 @@ public partial class MainMenu : UserControl
 
     private void SlotSelectPanel_OnBackClosed(object? sender, EventArgs e)
     {
-        ToggleSlotSelect(false); // Вертаємо все назад
+        ToggleSlotSelect(false);
     }
 
     private void ToggleSlotSelect(bool open)
@@ -55,15 +53,15 @@ public partial class MainMenu : UserControl
         if (open)
         {
             menuAnim.From = Canvas.GetLeft(MainMenuContent);
-            menuAnim.To = -1920; // Меню їде вліво
+            menuAnim.To = -1920; 
 
             slotAnim.From = 1920;
-            slotAnim.To = 0;     // Слоти виїжджають в центр
+            slotAnim.To = 0;
 
             if (isSettingsOpen)
             {
                 settingsAnim.From = Canvas.GetLeft(SettingsContainer);
-                settingsAnim.To = 700 - 1920; // Налаштування їдуть разом з меню
+                settingsAnim.To = 700 - 1920;
             }
         }
         else
@@ -95,7 +93,6 @@ public partial class MainMenu : UserControl
         ToggleCharCreate(true);
     }
 
-    // Натиснули "Назад" у створенні персонажа → вертаємо слоти назад
     private void CharacterCreatePanel_OnBackClosed(object? sender, EventArgs e)
     {
         ToggleCharCreate(false);
@@ -114,21 +111,17 @@ public partial class MainMenu : UserControl
 
         if (open)
         {
-            // Вікно вибору слотів зміщується далі вліво, звільняючи центр
             slotAnim.From = Canvas.GetLeft(SlotSelectContainer);
             slotAnim.To = -1920;
 
-            // Вікно створення персонажа виїжджає справа наліво (з 1920 в 0)
             charAnim.From = 1920;
             charAnim.To = 0;
         }
         else
         {
-            // Слоти повертаються назад у центр
             slotAnim.From = Canvas.GetLeft(SlotSelectContainer);
             slotAnim.To = 0;
 
-            // Створення персонажа ховається назад праворуч
             charAnim.From = Canvas.GetLeft(CharacterCreateContainer);
             charAnim.To = 1920;
         }
@@ -137,7 +130,6 @@ public partial class MainMenu : UserControl
         CharacterCreateContainer.BeginAnimation(Canvas.LeftProperty, charAnim);
     }
 
-    // ── Завантажити → теж через вибір слоту ─────────────────────────────────
     private void BtnLoad_Click(object sender, RoutedEventArgs e)
     {
         ToggleSlotSelect(true);

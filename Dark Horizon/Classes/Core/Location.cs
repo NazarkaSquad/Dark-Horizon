@@ -16,7 +16,6 @@ namespace Dark_Horizon.Classes.Core
         public int RecommendedLevel { get; set; }
         public List<Enemy> Enemies { get; set; } = new();
 
-        // Сусідні локації (куди можна піти)
         public Location? North { get; set; }
         public Location? South { get; set; }
         public Location? East { get; set; }

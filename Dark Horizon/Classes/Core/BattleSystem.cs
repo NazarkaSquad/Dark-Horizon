@@ -6,11 +6,9 @@ using Dark_Horizon.Classes.Items;
 
 namespace Dark_Horizon.Classes.Core;
 
-// ── Перелічення ──────────────────────────────────────────────────────────────
 public enum BattleResult { Ongoing, PlayerWon, PlayerLost }
 public enum BodyPart     { Head, Chest, Stomach, Legs }
 
-// ── Підсумок одного ходу ─────────────────────────────────────────────────────
 public class TurnReport
 {
     public List<string> Log          { get; } = new();
@@ -32,11 +30,8 @@ public class BattleSystem
     private Player?     _player;
     private List<Enemy> _enemies = new();
     private readonly Random _rng = new();
-
-    // Шанс влучити при базовій атаці (без модифікаторів)
     private const double BASE_HIT = 0.80;
 
-    // Модифікатори влучання по частині тіла (голова — важче влучити, але боляче)
     private static readonly Dictionary<BodyPart, double> HitMod = new()
     {
         { BodyPart.Head,    -0.20 },
@@ -45,7 +40,6 @@ public class BattleSystem
         { BodyPart.Legs,    +0.10 },
     };
 
-    // Множник шкоди
     private static readonly Dictionary<BodyPart, double> DmgMul = new()
     {
         { BodyPart.Head,    1.50 },
@@ -54,7 +48,6 @@ public class BattleSystem
         { BodyPart.Legs,    0.75 },
     };
 
-    // Шанс повного блоку, якщо захищають ту саму частину, куди б'ють
     private static readonly Dictionary<BodyPart, double> BlockChance = new()
     {
         { BodyPart.Head,    0.55 },
@@ -63,7 +56,6 @@ public class BattleSystem
         { BodyPart.Legs,    0.75 },
     };
 
-    // ── API ───────────────────────────────────────────────────────────────────
     public void StartBattle(Player player, List<Enemy> enemies)
     {
         _player  = player;
@@ -76,10 +68,6 @@ public class BattleSystem
 
     private Enemy? LiveTarget => _enemies.FirstOrDefault(e => e.IsAlive);
 
-    /// <summary>
-    /// Гравець обирає куди бити і що захищати — одночасно.
-    /// Ворог теж обирає випадково. Рахується обмін ударами.
-    /// </summary>
     public TurnReport ResolveTurn(BodyPart attackPart, BodyPart defendPart)
     {
         var report = new TurnReport();
@@ -111,7 +99,6 @@ public class BattleSystem
         return report;
     }
 
-    /// <summary>Використання їжі/зілля. Ворог встигає вдарити у відповідь.</summary>
     public TurnReport UseItem(Food food)
     {
         var report = new TurnReport();
@@ -124,7 +111,6 @@ public class BattleSystem
             ? $"Ти використав {food.Name} і відновив {healed} HP."
             : $"Ти використав {food.Name}, але HP вже повне.");
 
-        // Ворог б'є поки ти копаєшся в інвентарі — без захисту
         var target = LiveTarget;
         if (target != null)
             ResolveHit(target, _player, RandPart(), RandPart(), report, isPlayer: false);
@@ -133,7 +119,6 @@ public class BattleSystem
         return report;
     }
 
-    /// <summary>Спроба втечі. 50% шанс. При успіху — -25% MaxHP. При провалі — ворог б'є.</summary>
     public TurnReport TryEscape()
     {
         var report = new TurnReport();
@@ -146,7 +131,7 @@ public class BattleSystem
             _player.Health = Math.Max(1, _player.Health - pen);
             report.Log.Add($"Ти втік з бою, але втратив {pen} HP від поспіху.");
             report.EscapedSuccessfully = true;
-            report.FinalResult = BattleResult.Ongoing; // бій зупинено зовні
+            report.FinalResult = BattleResult.Ongoing;
             return report;
         }
 
@@ -181,7 +166,6 @@ public class BattleSystem
         return (exp, gold);
     }
 
-    // ── Утиліти ──────────────────────────────────────────────────────────────
     private void ResolveHit(Character attacker, Character defender,
                             BodyPart atkPart, BodyPart defPart,
                             TurnReport report, bool isPlayer)

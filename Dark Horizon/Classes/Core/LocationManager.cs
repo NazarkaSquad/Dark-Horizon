@@ -10,7 +10,6 @@ namespace Dark_Horizon.Classes.Core
 
         public LocationManager()
         {
-            // Створюємо локації
             var city = new Location(
                 name: "Місто",
                 description: "Торгове місто. Тут можна купити спорядження і відпочити.",
@@ -47,7 +46,6 @@ namespace Dark_Horizon.Classes.Core
                 type: LocationType.Outskirt,
                 recommendedLevel: 1
             );
-            // Моби в лісі
             forest.Enemies.AddRange(new[]
             {
                 Enemy.CreateWolf(),
@@ -56,7 +54,6 @@ namespace Dark_Horizon.Classes.Core
                 Enemy.CreateSkeleton()
             });
 
-            // Моби на болоті
             swamp.Enemies.AddRange(new[]
             {
                 Enemy.CreateSlug(),
@@ -65,13 +62,6 @@ namespace Dark_Horizon.Classes.Core
                 Enemy.CreateOgre()
             });
 
-
-            // Зв'язуємо локації між собою
-            //        [Таверна]
-            //            |
-            // [Ліс] - [Місто] - [Болото]
-            //            |
-            //       [Околиці]
             city.North = tavern;
             city.West = forest;
             city.East = swamp;
@@ -85,11 +75,9 @@ namespace Dark_Horizon.Classes.Core
 
             AllLocations.AddRange(new[] { city, tavern, forest, swamp, outskirt });
 
-            // Старт — місто
             CurrentLocation = city;
         }
 
-        // Переміщення
         public Location? MoveNorth() => TryMove(CurrentLocation.North);
         public Location? MoveSouth() => TryMove(CurrentLocation.South);
         public Location? MoveEast() => TryMove(CurrentLocation.East);
@@ -97,22 +85,16 @@ namespace Dark_Horizon.Classes.Core
 
         private Location? TryMove(Location? target)
         {
-            if (target == null) return null; // Туди не можна йти
+            if (target == null) return null;
             CurrentLocation = target;
             return CurrentLocation;
         }
 
-        // Чи є стрілка в цей бік
         public bool CanGoNorth => CurrentLocation.North != null;
         public bool CanGoSouth => CurrentLocation.South != null;
         public bool CanGoEast => CurrentLocation.East != null;
         public bool CanGoWest => CurrentLocation.West != null;
 
-        // Примусово виставляє поточну локацію за типом.
-        // Викликається з code-behind кожного екрану (Town/Forest/Swamp) при завантаженні,
-        // щоб CurrentLocation завжди відповідав тому, що гравець бачить на екрані —
-        // інакше переходи між View (StartTransition) ніяк не зрушують CurrentLocation,
-        // і перевірка "мирна зона / можна шукати пригоди" завжди читає старе значення.
         public void SetCurrentLocation(LocationType type)
         {
             var loc = AllLocations.FirstOrDefault(l => l.Type == type);

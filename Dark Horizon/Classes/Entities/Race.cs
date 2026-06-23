@@ -12,7 +12,6 @@ namespace Dark_Horizon.Classes.Entities
         public string Name { get; set; }
         public string Description { get; set; }
 
-        // Характеристики
         public int BonusHP { get; set; }
         public int BonusStrength { get; set; }
         public int BonusMagic { get; set; }
@@ -33,7 +32,6 @@ namespace Dark_Horizon.Classes.Entities
             SpecialAbility = specialAbility;
         }
 
-        // Готові раси — викликаєш Race.GetHuman() і отримуєш готовий об'єкт
         public static Race GetHuman() => new Race(
             type: RaceType.Human,
             name: "Людина",
@@ -67,7 +65,6 @@ namespace Dark_Horizon.Classes.Entities
             specialAbility: "Груба шкіра: 10% шанс ігнорувати удар"
         );
 
-        // Зручний метод — отримати расу по enum
         public static Race GetByType(RaceType type) => type switch
         {
             RaceType.Human => GetHuman(),

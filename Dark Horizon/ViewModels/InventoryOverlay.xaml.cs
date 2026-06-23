@@ -12,9 +12,6 @@ namespace Dark_Horizon.Views;
 
 public partial class InventoryOverlay : UserControl
 {
-    // Легка обгортка над Item — потрібна, щоб у списку показувати
-    // різний текст (урон/захист/лікування) та різну кнопку дії
-    // (Одягнути / Одягнено / Їсти) без DataTemplateSelector.
     private class InventoryRow
     {
         public Item Item { get; set; } = null!;
@@ -33,8 +30,6 @@ public partial class InventoryOverlay : UserControl
         InitializeComponent();
     }
 
-    // Викликається ззовні (з MainWindow) щоразу, коли вікно інвентарю відкривається
-    // Викликається ззовні (з MainWindow) щоразу, коли вікно інвентарю відкривається
     public void Refresh()
     {
         _player = GameManager.Instance.Player;
@@ -48,17 +43,7 @@ public partial class InventoryOverlay : UserControl
         TxtTotalDefense.Text = $"🛡 {_player.Defense}";
         TxtTotalHealth.Text = $"♥ {_player.Health}/{_player.MaxHealth}";
 
-        // --- ДИНАМІЧНЕ ЗАВАНТАЖЕННЯ ПЕРСОНАЖА ---
-        // Визначаємо стать (якщо властивості статі немає в Player, можна тимчасово брати "M" або "W")
-        // string genderCode = _player.Gender == "Female" ? "W" : "M";
-
-        // Отримуємо расу (Human, Elf, Orc)
-        // string raceCode = _player.Race ?? "Human";
-
-        // Склеюємо назву файлу, наприклад: "M" + "Elf" + ".png" = "MElf.png"
-        //  string imageName = $"{genderCode}{raceCode}.png";
         string imageName = "WElf.png";
-        // Формуємо повний шлях до твого спрайту у папці проекту
         string fullImagePath = $"pack://application:,,,/Assets/Images/Characters/{imageName}";
 
         try
@@ -67,18 +52,14 @@ public partial class InventoryOverlay : UserControl
         }
         catch
         {
-            // Якщо раптом файлу немає — ставимо людину за замовчуванням, щоб гра не падала
             ImgPlayerCharacter.Source = new System.Windows.Media.Imaging.BitmapImage(
                 new System.Uri("pack://application:,,,/Assets/Images/Characters/MHuman.png"));
         }
-        // ----------------------------------------
 
-        // HP-бар: висота заливки пропорційна поточному здоров'ю (бар має висоту 260)
         double ratio = _player.MaxHealth > 0 ? (double)_player.Health / _player.MaxHealth : 0;
         ratio = System.Math.Clamp(ratio, 0, 1);
         HpBarFill.Height = 260 * ratio;
 
-        // ... (весь інший твій код методів слотів зброї/броні та RefreshList залишається без змін)
         HpBarFill.Fill = ratio > 0.5
             ? new System.Windows.Media.SolidColorBrush(
                 (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#2E7D32"))
@@ -88,7 +69,6 @@ public partial class InventoryOverlay : UserControl
                 : new System.Windows.Media.SolidColorBrush(
                     (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#C0392B"));
 
-        // Слот зброї
         if (_player.EquippedWeapon != null)
         {
             TxtWeaponSlot.Text = $"{_player.EquippedWeapon.Name} (Урон +{_player.EquippedWeapon.Damage})";
@@ -100,7 +80,6 @@ public partial class InventoryOverlay : UserControl
             BtnUnequipWeapon.Visibility = Visibility.Collapsed;
         }
 
-        // Слот броні
         if (_player.EquippedArmor != null)
         {
             TxtArmorSlot.Text = $"{_player.EquippedArmor.Name} (Захист +{_player.EquippedArmor.Defense})";
@@ -203,7 +182,6 @@ public partial class InventoryOverlay : UserControl
             mw.CloseInventory();
     }
 
-    // Клік по затемненому фону теж закриває вікно
     private void Backdrop_MouseDown(object sender, MouseButtonEventArgs e)
     {
         if (Application.Current.MainWindow is MainWindow mw)

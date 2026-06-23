@@ -44,7 +44,6 @@ public partial class Battle : UserControl
         };
     }
 
-    // ── Оновлення UI ─────────────────────────────────────────────────────────
     private void RefreshUI()
     {
         var gm = GameManager.Instance;
@@ -52,13 +51,11 @@ public partial class Battle : UserControl
         var bs = gm.CurrentBattle;
         if (p == null || bs == null) return;
 
-        // Гравець
         TxtPlayerName.Text = p.Name;
         TxtPlayerLevel.Text = $"РВ {p.Level}";
         TxtPlayerHp.Text = $"{p.Health} / {p.MaxHealth}";
         SetBar(PlayerHpFill, p.Health, p.MaxHealth, 556);
 
-        // Ворог (перший живий)
         Enemy? enemy = null;
         foreach (var ch in bs.AllParticipants)
         {
@@ -76,23 +73,19 @@ public partial class Battle : UserControl
             TxtEnemyHp.Text = $"{enemy.Health} / {enemy.MaxHealth}";
             SetBar(EnemyHpFill, enemy.Health, enemy.MaxHealth, 556);
 
-            // Динамічне завантаження малюнка на основі SpriteKey з твого класу Enemy
             try
             {
-                // Формуємо повне ім'я, наприклад "wolf.png", "slug.png"
                 string spritePath = $"pack://application:,,,/Assets/Images/Enemies/{enemy.SpriteKey}.png";
                 EnemySprite.Source = new BitmapImage(new Uri(spritePath));
             }
             catch
             {
-                // Якщо картинку забули додати, гра не вилетить, а підтягне вовка за замовчуванням
                 EnemySprite.Source = new BitmapImage(
                     new Uri("pack://application:,,,/Assets/Images/Enemies/Wolf.png"));
             }
         }
         else
         {
-            // Якщо живих ворогів немає — очищаємо спрайт
             EnemySprite.Source = null;
         }
     }
@@ -107,13 +100,11 @@ public partial class Battle : UserControl
                   : new SolidColorBrush(Color.FromRgb(0xFF, 0x20, 0x20));
     }
 
-    // ── Логіка вибору кнопок ─────────────────────────────────────────────────
     private void AtkBtn_Click(object sender, RoutedEventArgs e)
     {
         if (sender is not Button btn) return;
         _selectedAttack = Enum.Parse<BodyPart>((string)btn.Tag);
 
-        // Візуальний ефект затискання кнопки ходу
         foreach (var (_, b) in _atkBtns) b.Opacity = 1.0;
         btn.Opacity = 0.5;
 
@@ -125,7 +116,6 @@ public partial class Battle : UserControl
         if (sender is not Button btn) return;
         _selectedDefend = Enum.Parse<BodyPart>((string)btn.Tag);
 
-        // Візуальний ефект затискання кнопки захисту
         foreach (var (_, b) in _defBtns) b.Opacity = 1.0;
         btn.Opacity = 0.5;
 
@@ -137,7 +127,6 @@ public partial class Battle : UserControl
         BtnFight.IsEnabled = _selectedAttack.HasValue && _selectedDefend.HasValue;
     }
 
-    // ── Атакувати ─────────────────────────────────────────────────────────────
     private void BtnFight_Click(object sender, RoutedEventArgs e)
     {
         if (!_selectedAttack.HasValue || !_selectedDefend.HasValue) return;
@@ -146,7 +135,6 @@ public partial class Battle : UserControl
         AppendLog(report.Log);
         RefreshUI();
 
-        // Повертаємо прозорість кнопкам
         foreach (var (_, b) in _atkBtns) b.Opacity = 1.0;
         foreach (var (_, b) in _defBtns) b.Opacity = 1.0;
 
@@ -157,7 +145,6 @@ public partial class Battle : UserControl
         HandleResult(report.FinalResult, report.EscapedSuccessfully);
     }
 
-    // ── Інвентар ─────────────────────────────────────────────────────────────
     private void BtnInventory_Click(object sender, RoutedEventArgs e)
     {
         FoodList.Children.Clear();
@@ -213,7 +200,6 @@ public partial class Battle : UserControl
     private void BtnCloseInv_Click(object sender, RoutedEventArgs e)
         => InvOverlay.Visibility = Visibility.Collapsed;
 
-    // ── Втеча ────────────────────────────────────────────────────────────────
     private void BtnFlee_Click(object sender, RoutedEventArgs e)
     {
         var report = GameManager.Instance.TryEscape();
@@ -222,7 +208,6 @@ public partial class Battle : UserControl
         HandleResult(report.FinalResult, report.EscapedSuccessfully);
     }
 
-    // ── Обробка результату ────────────────────────────────────────────────────
     private void HandleResult(BattleResult result, bool escaped)
     {
         if (escaped)

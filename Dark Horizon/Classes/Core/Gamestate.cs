@@ -18,7 +18,6 @@ namespace Dark_Horizon.Classes.Core
         private static DispatcherTimer? _autoSaveTimer;
         private static DispatcherTimer? _regenTimer;
 
-        // ── Автозбереження ────────────────────────────────────────────────────
         public static void StartAutoSave()
         {
             RestartAutoSave();
@@ -50,7 +49,6 @@ namespace Dark_Horizon.Classes.Core
             new SaveManager().Save(SelectedSlot, GameManager.Instance.Player, locationName);
         }
 
-        // ── Пасивна регенерація: +1 HP / хвилину поза боєм ──────────────────
         public static void StartRegen()
         {
             _regenTimer?.Stop();

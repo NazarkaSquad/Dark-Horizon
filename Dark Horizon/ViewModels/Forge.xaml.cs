@@ -77,18 +77,15 @@ namespace Dark_Horizon.Views
         {
             if (sender is Button btn && btn.DataContext is Item selectedItem && _player != null)
             {
-                // Купуємо предмет за твоєю стандартною логікою
                 string resultMessage = _market.Buy(_player, selectedItem);
 
-                // ХИТРІСТЬ ДЛЯ БЕЗКІНЕЧНОСТІ:
-                // Якщо маркет внутрішньо видалив предмет із Stock, ми його одразу закидаємо назад
                 if (!_market.Stock.Contains(selectedItem))
                 {
                     _market.AddToStock(selectedItem);
                 }
 
                 UpdateUI();
-                RefreshMarketUI(); // Оновлюємо вітрину (предмет залишиться на місці)
+                RefreshMarketUI();
             }
         }
 

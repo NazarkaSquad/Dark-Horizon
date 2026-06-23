@@ -9,7 +9,6 @@ namespace Dark_Horizon.Views
         public int SlotNumber { get; private set; }
         public SaveData? SaveData { get; private set; }
 
-        // Подія: гравець обрав цей слот
         public event EventHandler<int>? SlotSelected;
 
         public Saveslotpanel()

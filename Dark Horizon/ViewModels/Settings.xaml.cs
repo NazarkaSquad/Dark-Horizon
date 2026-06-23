@@ -20,7 +20,6 @@ public partial class Settings : UserControl
     {
         ApplyActualModeText();
 
-        // Синхронізуємо слайдер з поточним значенням автозбереження
         SliderAutoSave.Value = GameState.AutoSaveMinutes;
         TxtAutoSaveValue.Text = $"{GameState.AutoSaveMinutes} хв";
     }
@@ -43,18 +42,15 @@ public partial class Settings : UserControl
         }
     }
 
-    // ── Слайдер автозбереження ────────────────────────────────────────────
     private void SliderAutoSave_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
         int minutes = (int)e.NewValue;
         if (TxtAutoSaveValue != null)
             TxtAutoSaveValue.Text = $"{minutes} хв";
 
-        // Застосовуємо одразу (перезапускає таймер автозбереження)
         GameState.AutoSaveMinutes = minutes;
     }
 
-    // ── Режим екрану ──────────────────────────────────────────────────────
     private void BtnScreenModeTrigger_Click(object sender, RoutedEventArgs e)
     {
         ComboDropdownPanel.Visibility = BtnScreenModeTrigger.IsChecked == true
@@ -99,7 +95,6 @@ public partial class Settings : UserControl
 
         CloseDropdown();
 
-        // ВИКЛИК ПОДІЇ: повідомляємо MainWindow, що треба сховати налаштування і відкрити меню паузи
         OnSettingsClosed?.Invoke(this, EventArgs.Empty);
     }
 
@@ -117,10 +112,8 @@ public partial class Settings : UserControl
     }
     private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
-        // Отримуємо нове значення від 0 до 1 і передаємо в AudioManager
         AudioManager.SetVolume(VolumeSlider.Value);
 
-        // 2. Зберігаємо це значення в налаштування програми
         Properties.Settings.Default.MusicVolume = VolumeSlider.Value;
         Properties.Settings.Default.Save();
     }

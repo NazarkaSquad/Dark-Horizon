@@ -2,10 +2,8 @@
 
 namespace Dark_Horizon.Classes.Items
 {
-    // Типи предметів у грі
         public enum ItemType { Weapon, Armor, Food }
 
-    // Базовий клас для всіх предметів
     public abstract class Item
     {
         public string Name { get; set; }
@@ -15,10 +13,8 @@ namespace Dark_Horizon.Classes.Items
         public string Description { get; set; }
         public int RequiredLevel { get; set; }
 
-        // Шлях до картинки для WPF текстур (наприклад, "/Assets/Images/sword.png")
         public string IconPath { get; set; }
 
-        // Конструктор предмета
         public Item(string name, int price, ItemType type, int requiredLevel = 1, string description = "", string iconPath = "")
         {
             Name = name;
@@ -28,9 +24,6 @@ namespace Dark_Horizon.Classes.Items
             Description = description;
             IconPath = iconPath;
         }
-
-        // Абстрактний метод для використання предмета грацем.
-        // Замість 'object player' потім впишіть ваш реальний клас персонажа (наприклад, Character або Player)
         public abstract void Use(object player);
     }
 }

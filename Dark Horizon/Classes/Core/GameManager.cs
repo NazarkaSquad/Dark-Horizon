@@ -24,11 +24,10 @@ public class GameManager
         LocationManager = new LocationManager();
     }
 
-    // ── Персонаж ─────────────────────────────────────────────────────────────
     public void StartGame(string playerName, PlayerClass playerClass, RaceType raceType)
     {
         Player = new Player(playerName, playerClass, raceType);
-        GameState.StartAutoSave(); // запускає автозбереження + пасивну регенерацію 1хп/хв
+        GameState.StartAutoSave();
     }
 
     public void LoadFromSave(SaveData save)
@@ -42,18 +41,13 @@ public class GameManager
             Gold      = save.Gold,
             Level     = save.Level,
         };
-        GameState.StartAutoSave(); // те саме при завантаженні збереження
+        GameState.StartAutoSave();
     }
 
-    // ── Бій ──────────────────────────────────────────────────────────────────
-    /// <summary>
-    /// Запускає бій з конкретним списком ворогів (наприклад, випадковими з локації).
-    /// </summary>
     public void StartNewBattle(List<Enemy> enemies)
     {
         if (Player == null || CurrentBattle == null) return;
 
-        // Ресет стану — перестворюємо BattleSystem щоб не накопичувались підписки
         CurrentBattle = new BattleSystem();
         CurrentBattle.OnBattleEnded += HandleBattleResult;
 
@@ -61,10 +55,6 @@ public class GameManager
         CurrentBattle.StartBattle(Player, enemies);
     }
 
-    /// <summary>
-    /// Вибирає 1–2 випадкових ворогів із пулу поточної локації і запускає бій.
-    /// Повертає null при успіху, або рядок-помилку (мирна зона, немає ворогів).
-    /// </summary>
     public string? StartAdventure()
     {
         if (Player == null) return "Спочатку створи персонажа.";
@@ -84,13 +74,12 @@ public class GameManager
         if (pool.Count == 0)
             return "Тут поки тихо — ворогів немає.";
 
-        // Беремо 1 або 2 випадкових ворогів
         var rng  = new Random();
         int count = rng.Next(1, 3);
         var chosen = pool.OrderBy(_ => rng.Next()).Take(count).ToList();
 
         StartNewBattle(chosen);
-        return null; // null = бій успішно розпочато
+        return null;
     }
 
     public TurnReport ResolveTurn(BodyPart attack, BodyPart defend)
@@ -135,15 +124,12 @@ public class GameManager
             Player.Health = 1;
         }
     }
-
-    // ── Локації ──────────────────────────────────────────────────────────────
     public Location CurrentLocation => LocationManager.CurrentLocation;
     public Location? MoveNorth()    => LocationManager.MoveNorth();
     public Location? MoveSouth()    => LocationManager.MoveSouth();
     public Location? MoveEast()     => LocationManager.MoveEast();
     public Location? MoveWest()     => LocationManager.MoveWest();
 
-    // ── Таверна ──────────────────────────────────────────────────────────────
     public string RestInTavern(int cost = 20)
     {
         if (Player == null)              return "Гравець не створений.";

@@ -14,7 +14,6 @@ public partial class Town : UserControl
 
         private void BtnTavern_Click(object sender, RoutedEventArgs e)
         {
-            // Логіка таверни (без змін)
         }
 
         private void BtnForge_Click(object sender, RoutedEventArgs e)
