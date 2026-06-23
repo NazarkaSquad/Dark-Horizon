@@ -29,17 +29,17 @@ public class Enemy : Character
     }
 
     // ── Фабричні методи ─────────────────────────────────
-    public static Enemy CreateSlug()     => new("Слимак",   30,  5,  2,  3, 10,  8, 1, "slug");
-    public static Enemy CreateWolf()     => new("Вовк",     50, 12,  4,  8, 25, 15, 2, "wolf");
-    public static Enemy CreateBandit()   => new("Бандит",   70, 15,  5,  7, 40, 20, 3, "bandit");
-    public static Enemy CreateSkeleton() => new("Скелет",   60, 14,  6,  5, 35, 18, 2, "skeleton");
-    public static Enemy CreateZombie()   => new("Зомбі",    55, 10,  3,  4, 30, 12, 2, "zombie");
-    public static Enemy CreateOgre()     => new("Огр",     150, 25, 10,  4,100, 50, 5, "ogre");
-    public static Enemy CreateWitch()    => new("Відьма",   80, 20,  4,  6, 55, 28, 4, "witch");
+    public static Enemy CreateSlug()     => new("Слимак",   30,  5,  2,  3, 10,  8, 1, "Slime");
+    public static Enemy CreateWolf()     => new("Вовк",     50, 12,  4,  8, 25, 15, 2, "Wolf");
+    public static Enemy CreateBandit()   => new("Бандит",   70, 15,  5,  7, 40, 20, 3, "Bandit");
+    public static Enemy CreateSkeleton() => new("Скелет",   60, 14,  6,  5, 35, 18, 2, "Skeleton");
+    public static Enemy CreateZombie()   => new("Зомбі",    55, 10,  3,  4, 30, 12, 2, "Zombie");
+    public static Enemy CreateOgre()     => new("Огр",     150, 25, 10,  4,100, 50, 5, "Ogre");
+    public static Enemy CreateWitch()    => new("Відьма",   80, 20,  4,  6, 55, 28, 4, "Witch");
 
     // ── Пули ворогів по локаціях ─────────────────────────
     public static List<Enemy> ForestPool() => new()
-    {
+    {   
         CreateWolf(), CreateWolf(), CreateBandit(),
         CreateSkeleton(), CreateZombie()
     };

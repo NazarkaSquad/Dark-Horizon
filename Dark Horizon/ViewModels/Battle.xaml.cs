@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Dark_Horizon.Classes.Core;
 using Dark_Horizon.Classes.Entities;
 using Dark_Horizon.Classes.Items;
@@ -11,38 +12,32 @@ namespace Dark_Horizon.Views;
 
 public partial class Battle : UserControl
 {
-    // Вибрані гравцем частини тіла поточного ходу
     private BodyPart? _selectedAttack;
     private BodyPart? _selectedDefend;
 
-    // Кнопки атаки та захисту (для підсвічування обраної)
     private readonly Dictionary<BodyPart, Button> _atkBtns = new();
     private readonly Dictionary<BodyPart, Button> _defBtns = new();
-
-    // Джерело попереднього екрану (щоб повернутись після бою)
-    private readonly string _returnLocation; // "Forest" або "Swamp"
+    private readonly string _returnLocation;
 
     public Battle(string returnLocation = "Forest")
     {
         InitializeComponent();
         _returnLocation = returnLocation;
 
-        // Реєструємо кнопки атаки
         Loaded += (_, _) =>
         {
-            _atkBtns[BodyPart.Head]    = BtnAtkHead;
-            _atkBtns[BodyPart.Chest]   = BtnAtkChest;
+            _atkBtns[BodyPart.Head] = BtnAtkHead;
+            _atkBtns[BodyPart.Chest] = BtnAtkChest;
             _atkBtns[BodyPart.Stomach] = BtnAtkStomach;
-            _atkBtns[BodyPart.Legs]    = BtnAtkLegs;
+            _atkBtns[BodyPart.Legs] = BtnAtkLegs;
 
-            _defBtns[BodyPart.Head]    = BtnDefHead;
-            _defBtns[BodyPart.Chest]   = BtnDefChest;
+            _defBtns[BodyPart.Head] = BtnDefHead;
+            _defBtns[BodyPart.Chest] = BtnDefChest;
             _defBtns[BodyPart.Stomach] = BtnDefStomach;
-            _defBtns[BodyPart.Legs]    = BtnDefLegs;
+            _defBtns[BodyPart.Legs] = BtnDefLegs;
 
-            // Фон залежно від локації
             if (_returnLocation == "Swamp")
-                BattleBg.Source = new System.Windows.Media.Imaging.BitmapImage(
+                BattleBg.Source = new BitmapImage(
                     new Uri("pack://application:,,,/Assets/Images/Backgrounds/Swamp.png"));
 
             RefreshUI();
@@ -53,27 +48,52 @@ public partial class Battle : UserControl
     private void RefreshUI()
     {
         var gm = GameManager.Instance;
-        var p  = gm.Player;
+        var p = gm.Player;
         var bs = gm.CurrentBattle;
         if (p == null || bs == null) return;
 
         // Гравець
-        TxtPlayerName.Text  = p.Name;
+        TxtPlayerName.Text = p.Name;
         TxtPlayerLevel.Text = $"РВ {p.Level}";
-        TxtPlayerHp.Text    = $"{p.Health} / {p.MaxHealth}";
+        TxtPlayerHp.Text = $"{p.Health} / {p.MaxHealth}";
         SetBar(PlayerHpFill, p.Health, p.MaxHealth, 556);
 
         // Ворог (перший живий)
         Enemy? enemy = null;
         foreach (var ch in bs.AllParticipants)
-            if (ch is Enemy e && e.IsAlive) { enemy = e; break; }
+        {
+            if (ch is Enemy e && e.IsAlive)
+            {
+                enemy = e;
+                break;
+            }
+        }
 
         if (enemy != null)
         {
-            TxtEnemyName.Text  = enemy.Name;
+            TxtEnemyName.Text = enemy.Name;
             TxtEnemyLevel.Text = $"РВ {enemy.Level}";
-            TxtEnemyHp.Text    = $"{enemy.Health} / {enemy.MaxHealth}";
+            TxtEnemyHp.Text = $"{enemy.Health} / {enemy.MaxHealth}";
             SetBar(EnemyHpFill, enemy.Health, enemy.MaxHealth, 556);
+
+            // Динамічне завантаження малюнка на основі SpriteKey з твого класу Enemy
+            try
+            {
+                // Формуємо повне ім'я, наприклад "wolf.png", "slug.png"
+                string spritePath = $"pack://application:,,,/Assets/Images/Enemies/{enemy.SpriteKey}.png";
+                EnemySprite.Source = new BitmapImage(new Uri(spritePath));
+            }
+            catch
+            {
+                // Якщо картинку забули додати, гра не вилетить, а підтягне вовка за замовчуванням
+                EnemySprite.Source = new BitmapImage(
+                    new Uri("pack://application:,,,/Assets/Images/Enemies/Wolf.png"));
+            }
+        }
+        else
+        {
+            // Якщо живих ворогів немає — очищаємо спрайт
+            EnemySprite.Source = null;
         }
     }
 
@@ -82,7 +102,6 @@ public partial class Battle : UserControl
         double pct = max > 0 ? (double)cur / max : 0;
         rect.Width = Math.Max(0, fullWidth * pct);
 
-        // Колір залежно від залишку HP
         rect.Fill = pct > 0.5 ? new SolidColorBrush(Color.FromRgb(0xC0, 0x39, 0x2B))
                   : pct > 0.25 ? new SolidColorBrush(Color.FromRgb(0xE6, 0x7E, 0x22))
                   : new SolidColorBrush(Color.FromRgb(0xFF, 0x20, 0x20));
@@ -94,11 +113,9 @@ public partial class Battle : UserControl
         if (sender is not Button btn) return;
         _selectedAttack = Enum.Parse<BodyPart>((string)btn.Tag);
 
-        // Скидаємо стиль усіх, підсвічуємо обрану
-        var sel = (Style)FindResource("BB_On");
-        var def = (Style)FindResource("BB");
-        foreach (var (_, b) in _atkBtns) b.Style = def;
-        btn.Style = sel;
+        // Візуальний ефект затискання кнопки ходу
+        foreach (var (_, b) in _atkBtns) b.Opacity = 1.0;
+        btn.Opacity = 0.5;
 
         TryEnableFight();
     }
@@ -108,10 +125,9 @@ public partial class Battle : UserControl
         if (sender is not Button btn) return;
         _selectedDefend = Enum.Parse<BodyPart>((string)btn.Tag);
 
-        var sel = (Style)FindResource("BB_On");
-        var def = (Style)FindResource("BB");
-        foreach (var (_, b) in _defBtns) b.Style = def;
-        btn.Style = sel;
+        // Візуальний ефект затискання кнопки захисту
+        foreach (var (_, b) in _defBtns) b.Opacity = 1.0;
+        btn.Opacity = 0.5;
 
         TryEnableFight();
     }
@@ -130,12 +146,13 @@ public partial class Battle : UserControl
         AppendLog(report.Log);
         RefreshUI();
 
-        // Скидаємо вибір на наступний хід
+        // Повертаємо прозорість кнопкам
+        foreach (var (_, b) in _atkBtns) b.Opacity = 1.0;
+        foreach (var (_, b) in _defBtns) b.Opacity = 1.0;
+
         _selectedAttack = null;
         _selectedDefend = null;
         BtnFight.IsEnabled = false;
-        foreach (var (_, b) in _atkBtns) b.Style = (Style)FindResource("BB");
-        foreach (var (_, b) in _defBtns) b.Style = (Style)FindResource("BB");
 
         HandleResult(report.FinalResult, report.EscapedSuccessfully);
     }
@@ -149,11 +166,11 @@ public partial class Battle : UserControl
         {
             var empty = new TextBlock
             {
-                Text       = "Немає їжі чи зілля.",
+                Text = "Немає їжі чи зілля.",
                 FontFamily = (FontFamily)FindResource("PF"),
-                FontSize   = 18,
+                FontSize = 18,
                 Foreground = new SolidColorBrush(Colors.Gray),
-                Margin     = new Thickness(0, 12, 0, 0),
+                Margin = new Thickness(0, 12, 0, 0),
                 HorizontalAlignment = HorizontalAlignment.Center
             };
             FoodList.Children.Add(empty);
@@ -166,12 +183,12 @@ public partial class Battle : UserControl
 
                 var btn = new Button
                 {
-                    Width  = 560,
+                    Width = 560,
                     Height = 60,
                     Margin = new Thickness(0, 6, 0, 0),
-                    Style  = (Style)FindResource("BB_Sm"),
+                    Style = (Style)FindResource("BattleButtonStyle"),
                     Content = $"🍞  {food.Name}  (+{food.HealAmount} HP)   [Використати]",
-                    Tag    = food
+                    Tag = food
                 };
                 btn.Click += FoodItem_Click;
                 FoodList.Children.Add(btn);
@@ -210,21 +227,20 @@ public partial class Battle : UserControl
     {
         if (escaped)
         {
-            // Повернення на попередню локацію без оверлею
             GoBack();
             return;
         }
 
         if (result == BattleResult.PlayerWon)
         {
-            TxtEndTitle.Text   = "ПЕРЕМОГА!";
+            TxtEndTitle.Text = "ПЕРЕМОГА!";
             TxtEndDetails.Text = "Ти переміг ворога і отримав нагороду.";
             EndOverlay.Visibility = Visibility.Visible;
             LockActions();
         }
         else if (result == BattleResult.PlayerLost)
         {
-            TxtEndTitle.Text   = "💀  ПОРАЗКА";
+            TxtEndTitle.Text = "💀  ПОРАЗКА";
             TxtEndDetails.Text = "Ти загинув у бою...";
             EndOverlay.Visibility = Visibility.Visible;
             LockActions();
@@ -233,9 +249,9 @@ public partial class Battle : UserControl
 
     private void LockActions()
     {
-        BtnFight.IsEnabled     = false;
+        BtnFight.IsEnabled = false;
         BtnInventory.IsEnabled = false;
-        BtnFlee.IsEnabled      = false;
+        BtnFlee.IsEnabled = false;
     }
 
     private void BtnEndContinue_Click(object sender, RoutedEventArgs e)
@@ -252,13 +268,11 @@ public partial class Battle : UserControl
         }
     }
 
-    // ── Утиліта: додати рядки до логу ────────────────────────────────────────
     private void AppendLog(List<string> lines)
     {
         foreach (var line in lines)
             TxtLog.Text += "\n" + line;
 
-        // Автоскрол до кінця
         LogScroll.UpdateLayout();
         LogScroll.ScrollToBottom();
     }

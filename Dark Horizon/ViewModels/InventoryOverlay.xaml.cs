@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Dark_Horizon.Classes.Core;
+using Dark_Horizon.Classes.Core.Database;
 using Dark_Horizon.Classes.Entities;
 using Dark_Horizon.Classes.Items;
 
@@ -33,23 +34,51 @@ public partial class InventoryOverlay : UserControl
     }
 
     // Викликається ззовні (з MainWindow) щоразу, коли вікно інвентарю відкривається
+    // Викликається ззовні (з MainWindow) щоразу, коли вікно інвентарю відкривається
     public void Refresh()
     {
         _player = GameManager.Instance.Player;
         if (_player == null) return;
 
-        TxtPlayerName.Text  = _player.Name;
+        TxtPlayerName.Text = _player.Name;
         TxtPlayerLevel.Text = $"РІВЕНЬ {_player.Level}";
-        TxtGold.Text        = _player.Gold.ToString();
+        TxtGold.Text = _player.Gold.ToString();
 
-        TxtTotalAttack.Text  = $"⚔ {_player.Attack}";
+        TxtTotalAttack.Text = $"⚔ {_player.Attack}";
         TxtTotalDefense.Text = $"🛡 {_player.Defense}";
-        TxtTotalHealth.Text  = $"♥ {_player.Health}/{_player.MaxHealth}";
+        TxtTotalHealth.Text = $"♥ {_player.Health}/{_player.MaxHealth}";
+
+        // --- ДИНАМІЧНЕ ЗАВАНТАЖЕННЯ ПЕРСОНАЖА ---
+        // Визначаємо стать (якщо властивості статі немає в Player, можна тимчасово брати "M" або "W")
+        // string genderCode = _player.Gender == "Female" ? "W" : "M";
+
+        // Отримуємо расу (Human, Elf, Orc)
+        // string raceCode = _player.Race ?? "Human";
+
+        // Склеюємо назву файлу, наприклад: "M" + "Elf" + ".png" = "MElf.png"
+        //  string imageName = $"{genderCode}{raceCode}.png";
+        string imageName = "WElf.png";
+        // Формуємо повний шлях до твого спрайту у папці проекту
+        string fullImagePath = $"pack://application:,,,/Assets/Images/Characters/{imageName}";
+
+        try
+        {
+            ImgPlayerCharacter.Source = new System.Windows.Media.Imaging.BitmapImage(new System.Uri(fullImagePath));
+        }
+        catch
+        {
+            // Якщо раптом файлу немає — ставимо людину за замовчуванням, щоб гра не падала
+            ImgPlayerCharacter.Source = new System.Windows.Media.Imaging.BitmapImage(
+                new System.Uri("pack://application:,,,/Assets/Images/Characters/MHuman.png"));
+        }
+        // ----------------------------------------
 
         // HP-бар: висота заливки пропорційна поточному здоров'ю (бар має висоту 260)
         double ratio = _player.MaxHealth > 0 ? (double)_player.Health / _player.MaxHealth : 0;
         ratio = System.Math.Clamp(ratio, 0, 1);
         HpBarFill.Height = 260 * ratio;
+
+        // ... (весь інший твій код методів слотів зброї/броні та RefreshList залишається без змін)
         HpBarFill.Fill = ratio > 0.5
             ? new System.Windows.Media.SolidColorBrush(
                 (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#2E7D32"))
@@ -64,13 +93,11 @@ public partial class InventoryOverlay : UserControl
         {
             TxtWeaponSlot.Text = $"{_player.EquippedWeapon.Name} (Урон +{_player.EquippedWeapon.Damage})";
             BtnUnequipWeapon.Visibility = Visibility.Visible;
-            WeaponRect.Visibility = Visibility.Visible;
         }
         else
         {
             TxtWeaponSlot.Text = "Не одягнено";
             BtnUnequipWeapon.Visibility = Visibility.Collapsed;
-            WeaponRect.Visibility = Visibility.Collapsed;
         }
 
         // Слот броні
@@ -78,15 +105,11 @@ public partial class InventoryOverlay : UserControl
         {
             TxtArmorSlot.Text = $"{_player.EquippedArmor.Name} (Захист +{_player.EquippedArmor.Defense})";
             BtnUnequipArmor.Visibility = Visibility.Visible;
-            ArmorRect.Fill = new System.Windows.Media.SolidColorBrush(
-                (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#5A7A3A"));
         }
         else
         {
             TxtArmorSlot.Text = "Не одягнено";
             BtnUnequipArmor.Visibility = Visibility.Collapsed;
-            ArmorRect.Fill = new System.Windows.Media.SolidColorBrush(
-                (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#3A5A8A"));
         }
 
         RefreshList();

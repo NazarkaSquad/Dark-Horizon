@@ -37,25 +37,6 @@ namespace Dark_Horizon.Views
             ["Elf"] = "Крихкий але магічно сильний. +15 до магії, +10 спритності. Бачить слабкі місця ворогів.",
         };
 
-        // Кольори тіла персонажа залежно від раси
-        private static readonly Dictionary<string, Color> RaceSkinColor = new()
-        {
-            ["Human"] = Color.FromRgb(200, 149, 108),
-            ["Orc"] = Color.FromRgb(80, 130, 60),
-            ["Elf"] = Color.FromRgb(220, 190, 160),
-        };
-
-        // Кольори тіла залежно від класу
-        private static readonly Dictionary<string, Color> ClassBodyColor = new()
-        {
-            ["Warrior"] = Color.FromRgb(74, 56, 40),
-            ["Rogue"] = Color.FromRgb(30, 30, 40),
-            ["Mage"] = Color.FromRgb(60, 20, 80),
-            ["Paladin"] = Color.FromRgb(120, 100, 30),
-            ["Archer"] = Color.FromRgb(50, 80, 30),
-            ["Necromancer"] = Color.FromRgb(20, 20, 20),
-        };
-
         public Charactercreatescreen()
         {
             InitializeComponent();

@@ -4,317 +4,190 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
+             RenderOptions.BitmapScalingMode="NearestNeighbor"
              Width="1920" Height="1080">
 
     <UserControl.Resources>
         <FontFamily x:Key="PF">pack://application:,,,/Assets/Fonts/#7:12 Serif Regular</FontFamily>
 
-        <!-- Базова кнопка бою -->
-        <Style x:Key="BB" TargetType="Button">
-            <Setter Property="Background"    Value="#1A1208"/>
-            <Setter Property="BorderBrush"   Value="#5A4A20"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="Foreground"    Value="#D4A017"/>
-            <Setter Property="FontFamily"    Value="{StaticResource PF}"/>
-            <Setter Property="FontSize"      Value="20"/>
-            <Setter Property="Cursor"        Value="Hand"/>
+        <Style x:Key="BattleButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="{StaticResource PF}"/>
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="Bd"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid x:Name="BtnGrid">
+                            <Image x:Name="BtnImg" 
+                                   Source="pack://application:,,,/Assets/Images/UI/Button.png"
+                                   Stretch="Fill"
+                                   RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                   SnapsToDevicePixels="True"/>
+
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
+                        </Grid>
+
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bd" Property="Background"  Value="#2E2510"/>
-                                <Setter TargetName="Bd" Property="BorderBrush" Value="#FFD700"/>
+                                <Setter TargetName="BtnImg" Property="Opacity" Value="0.88"/>
                             </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="BtnImg" Property="Opacity" Value="0.6"/>
+                            </Trigger>
+
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="Bd" Property="Opacity" Value="0.3"/>
+                                <Setter TargetName="BtnGrid" Property="Opacity" Value="0.35"/>
+                                <Setter Property="Foreground" Value="#AAAAAA"/>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="True">
+                                <Setter TargetName="BtnGrid" Property="Opacity" Value="1.0"/>
+                                <Setter Property="Foreground" Value="white"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-
-        <!-- Активна (обрана) кнопка -->
-        <Style x:Key="BB_On" TargetType="Button" BasedOn="{StaticResource BB}">
-            <Setter Property="Background"  Value="#3A2F10"/>
-            <Setter Property="BorderBrush" Value="#FFD700"/>
-            <Setter Property="Foreground"  Value="#FFD700"/>
-        </Style>
-
-        <!-- Маленька кнопка (Інвентар / Втеча) -->
-        <Style x:Key="BB_Sm" TargetType="Button" BasedOn="{StaticResource BB}">
-            <Setter Property="FontSize" Value="17"/>
-        </Style>
     </UserControl.Resources>
 
     <Grid>
-        <!-- Фон -->
         <Image x:Name="BattleBg"
                Source="pack://application:,,,/Assets/Images/Backgrounds/Forest.png"
                Stretch="UniformToFill" Opacity="0.6"/>
         <Rectangle Fill="#BB000000"/>
 
-        <!-- ═══════════════════════════════════════════════════════════════════
-             ВЕРХ: HP-бари + рівні
-             ═══════════════════════════════════════════════════════════════════ -->
-        <Grid VerticalAlignment="Top" Margin="60,30,60,0">
+        <Grid VerticalAlignment="Top" Margin="140,30,140,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- ГРАВЕЦЬ (зліва) -->
             <StackPanel Grid.Column="0">
-                <!-- Рівень гравця -->
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
-                    <Border Background="#1A1208" BorderBrush="#8B6914" BorderThickness="2"
-                            Padding="10,3">
-                        <TextBlock x:Name="TxtPlayerLevel"
-                                   Text="РВ 1"
-                                   FontFamily="{StaticResource PF}" FontSize="16"
-                                   Foreground="#FFD700"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,6">
+                    <Border Background="#333333" BorderBrush="#1F1F1F" BorderThickness="2" Padding="10,3" Margin="0,0,6,0">
+                        <TextBlock x:Name="TxtPlayerLevel" Text="РВ 1" FontFamily="{StaticResource PF}" FontSize="17" Foreground="white"/>
                     </Border>
-                    <TextBlock x:Name="TxtPlayerName"
-                               Text="Герой"
-                               FontFamily="{StaticResource PF}" FontSize="26"
-                               Foreground="#D4A017" Margin="12,0,0,0"
-                               VerticalAlignment="Center"/>
+                    <TextBlock x:Name="TxtPlayerName" Text="Герой" FontFamily="{StaticResource PF}" FontSize="26" Foreground="white" VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <!-- HP-бар гравця -->
-                <Border Width="560" Height="38"
-                        Background="#0D0A05" BorderBrush="#5A4A20" BorderThickness="2"
-                        HorizontalAlignment="Left">
+                <Border Width="560" Height="38" Background="#0D0A05" BorderBrush="#1F1F1F" BorderThickness="2" HorizontalAlignment="Left">
                     <Grid>
                         <Rectangle x:Name="PlayerHpFill" Fill="#C0392B" HorizontalAlignment="Left" Width="556"/>
-                        <TextBlock x:Name="TxtPlayerHp"
-                                   FontFamily="{StaticResource PF}" FontSize="15"
-                                   Foreground="White"
-                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="TxtPlayerHp" FontFamily="{StaticResource PF}" FontSize="15" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </Border>
             </StackPanel>
 
-            <!-- VS по центру -->
-            <TextBlock Grid.Column="1"
-                       Text="VS"
-                       FontFamily="{StaticResource PF}" FontSize="34"
-                       Foreground="#8B6914"
-                       VerticalAlignment="Bottom" HorizontalAlignment="Center"
-                       Margin="30,0"/>
+            <TextBlock Grid.Column="1" Text="VS" FontFamily="{StaticResource PF}" FontSize="34" Foreground="white" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="30,0,30,4"/>
 
-            <!-- ВОРОГ (справа) -->
-            <StackPanel Grid.Column="2" HorizontalAlignment="Right">
-                <!-- Рівень ворога -->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,6">
-                    <TextBlock x:Name="TxtEnemyName"
-                               Text="Ворог"
-                               FontFamily="{StaticResource PF}" FontSize="26"
-                               Foreground="#D4A017" Margin="0,0,12,0"
-                               VerticalAlignment="Center"/>
-                    <Border Background="#1A1208" BorderBrush="#8B6914" BorderThickness="2"
-                            Padding="10,3">
-                        <TextBlock x:Name="TxtEnemyLevel"
-                                   Text="РВ 1"
-                                   FontFamily="{StaticResource PF}" FontSize="16"
-                                   Foreground="#FFD700"/>
+            <StackPanel Grid.Column="2">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,6">
+                    <TextBlock x:Name="TxtEnemyName" Text="Ворог" FontFamily="{StaticResource PF}" FontSize="26" Foreground="white" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                    <Border Background="#333333" BorderBrush="#1F1F1F" BorderThickness="2" Padding="10,3">
+                        <TextBlock x:Name="TxtEnemyLevel" Text="РВ 1" FontFamily="{StaticResource PF}" FontSize="17" Foreground="white"/>
                     </Border>
                 </StackPanel>
 
-                <!-- HP-бар ворога -->
-                <Border Width="560" Height="38"
-                        Background="#0D0A05" BorderBrush="#5A4A20" BorderThickness="2"
-                        HorizontalAlignment="Right">
+                <Border Width="560" Height="38" Background="#0D0A05" BorderBrush="#1F1F1F" BorderThickness="2" HorizontalAlignment="Right">
                     <Grid>
                         <Rectangle x:Name="EnemyHpFill" Fill="#8B2020" HorizontalAlignment="Left" Width="556"/>
-                        <TextBlock x:Name="TxtEnemyHp"
-                                   FontFamily="{StaticResource PF}" FontSize="15"
-                                   Foreground="White"
-                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="TxtEnemyHp" FontFamily="{StaticResource PF}" FontSize="15" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </Border>
             </StackPanel>
         </Grid>
 
-        <!-- ═══════════════════════════════════════════════════════════════════
-             ЦЕНТР: Силуети + Лог бою
-             ═══════════════════════════════════════════════════════════════════ -->
-        <Grid Margin="60,160,60,280">
+        <Grid Margin="60,160,60,273">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Силует гравця -->
-            <Viewbox Grid.Column="0" Width="200" Height="300"
-                     HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="80,0,0,0">
-                <Canvas Width="200" Height="300">
-                    <!-- Голова -->
-                    <Rectangle Canvas.Left="60" Canvas.Top="0"  Width="80" Height="80" Fill="#C8956C" Stroke="#4A2010" StrokeThickness="3"/>
-                    <!-- Тіло -->
-                    <Rectangle Canvas.Left="40" Canvas.Top="80" Width="120" Height="110" Fill="#3A5A8A" Stroke="#1A1208" StrokeThickness="3"/>
-                    <!-- Ноги -->
-                    <Rectangle Canvas.Left="45" Canvas.Top="190" Width="45" Height="110" Fill="#2A2A3A" Stroke="#1A1208" StrokeThickness="2"/>
-                    <Rectangle Canvas.Left="110" Canvas.Top="190" Width="45" Height="110" Fill="#2A2A3A" Stroke="#1A1208" StrokeThickness="2"/>
-                </Canvas>
-            </Viewbox>
-
-            <!-- Силует ворога -->
-            <Viewbox Grid.Column="1" Width="200" Height="300"
-                     HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,80,0">
-                <Canvas Width="200" Height="300">
-                    <!-- Голова -->
-                    <Rectangle Canvas.Left="60" Canvas.Top="0"  Width="80" Height="80" Fill="#7A5040" Stroke="#2A1008" StrokeThickness="3"/>
-                    <!-- Тіло -->
-                    <Rectangle Canvas.Left="40" Canvas.Top="80" Width="120" Height="110" Fill="#6A2020" Stroke="#1A1208" StrokeThickness="3"/>
-                    <!-- Ноги -->
-                    <Rectangle Canvas.Left="45" Canvas.Top="190" Width="45" Height="110" Fill="#3A1010" Stroke="#1A1208" StrokeThickness="2"/>
-                    <Rectangle Canvas.Left="110" Canvas.Top="190" Width="45" Height="110" Fill="#3A1010" Stroke="#1A1208" StrokeThickness="2"/>
-                </Canvas>
-            </Viewbox>
-
-            <!-- Лог подій (поверх силуетів) -->
-            <Border Grid.ColumnSpan="2"
-                    Width="860" Height="200"
-                    HorizontalAlignment="Center" VerticalAlignment="Top"
-                    Background="#E0100800" BorderBrush="#8B6914" BorderThickness="2">
-                <ScrollViewer x:Name="LogScroll" Padding="14,8"
-                              VerticalScrollBarVisibility="Auto">
-                    <TextBlock x:Name="TxtLog"
-                               FontFamily="{StaticResource PF}" FontSize="17"
-                               Foreground="#EEE" TextWrapping="Wrap"
-                               Text="Бій починається!"/>
+            <Border Grid.ColumnSpan="2" Width="860" Height="200" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#333333" BorderBrush="#1F1F1F" BorderThickness="2">
+                <ScrollViewer x:Name="LogScroll" Padding="14,8" VerticalScrollBarVisibility="Auto">
+                    <TextBlock x:Name="TxtLog" FontFamily="{StaticResource PF}" FontSize="17" Foreground="#EEE" TextWrapping="Wrap" Text="Бій починається!"/>
                 </ScrollViewer>
             </Border>
+
+            <Image Grid.Column="0" 
+                   Source="pack://application:,,,/Assets/Images/Characters/WElf.png"
+                   Width="240" Height="340" 
+                   HorizontalAlignment="Left" VerticalAlignment="Bottom" 
+                   Margin="100,0,0,-6"
+                   RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+
+            <Image x:Name="EnemySprite" 
+                   Grid.Column="1" 
+                   Width="240" Height="340" 
+                   HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                   Margin="0,0,100,-6"
+                   RenderOptions.BitmapScalingMode="NearestNeighbor"/>
         </Grid>
 
-        <!-- ═══════════════════════════════════════════════════════════════════
-             НИЗ: Панель дій
-             ═══════════════════════════════════════════════════════════════════ -->
-        <Border VerticalAlignment="Bottom" Height="268"
-                Background="#12100A" BorderBrush="#5A4A20" BorderThickness="0,2,0,0">
+        <Border VerticalAlignment="Bottom" Height="268" BorderBrush="Transparent" BorderThickness="0,2,0,0">
+            <Border.Background>
+                <ImageBrush ImageSource="pack://application:,,,/Assets/Images/UI/ActionPanel.png" TileMode="None" Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+            </Border.Background>
             <Grid Margin="40,16,40,16">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>   <!-- підказка -->
-                    <RowDefinition Height="Auto"/>   <!-- кнопки тіла -->
-                    <RowDefinition Height="Auto"/>   <!-- підказка 2 -->
-                    <RowDefinition Height="Auto"/>   <!-- кнопки тіла 2 (захист) -->
-                    <RowDefinition Height="*"/>      <!-- кнопки Атакувати / Інвентар / Втеча -->
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <!-- Підказка "Куди бити?" -->
-                <TextBlock x:Name="TxtHint1" Grid.Row="0"
-                           Text="КУДИ БИТИ?"
-                           FontFamily="{StaticResource PF}" FontSize="19"
-                           Foreground="#8B6914"
-                           HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                <TextBlock x:Name="TxtHint1" Grid.Row="0" Text="КУДИ БИТИ?" FontFamily="{StaticResource PF}" FontSize="19" Foreground="white" HorizontalAlignment="Center" Margin="0,0,0,8"/>
 
-                <!-- Кнопки атаки -->
-                <StackPanel x:Name="AttackPanel" Grid.Row="1"
-                            Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
-                    <Button x:Name="BtnAtkHead"    Content="🎯  ГОЛОВА"  Width="220" Height="50" Style="{StaticResource BB}" Click="AtkBtn_Click" Tag="Head"/>
-                    <Button x:Name="BtnAtkChest"   Content="🛡  ГРУДИ"   Width="220" Height="50" Style="{StaticResource BB}" Click="AtkBtn_Click" Tag="Chest"   Margin="8,0,0,0"/>
-                    <Button x:Name="BtnAtkStomach" Content="💢  ЖИВІТ"   Width="220" Height="50" Style="{StaticResource BB}" Click="AtkBtn_Click" Tag="Stomach" Margin="8,0,0,0"/>
-                    <Button x:Name="BtnAtkLegs"    Content="🦵  НОГИ"    Width="220" Height="50" Style="{StaticResource BB}" Click="AtkBtn_Click" Tag="Legs"    Margin="8,0,0,0"/>
+                <StackPanel x:Name="AttackPanel" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
+                    <Button x:Name="BtnAtkHead" Content="🎯  ГОЛОВА" Width="220" Height="50" FontSize="20" Style="{StaticResource BattleButtonStyle}" Click="AtkBtn_Click" Tag="Head"/>
+                    <Button x:Name="BtnAtkChest" Content="🛡  ГРУДИ" Width="220" Height="50" FontSize="20" Style="{StaticResource BattleButtonStyle}" Click="AtkBtn_Click" Tag="Chest" Margin="8,0,0,0"/>
+                    <Button x:Name="BtnAtkStomach" Content="💢  ЖИВІТ" Width="220" Height="50" FontSize="20" Style="{StaticResource BattleButtonStyle}" Click="AtkBtn_Click" Tag="Stomach" Margin="8,0,0,0"/>
+                    <Button x:Name="BtnAtkLegs" Content="🦵  НОГИ" Width="220" Height="50" FontSize="20" Style="{StaticResource BattleButtonStyle}" Click="AtkBtn_Click" Tag="Legs" Margin="8,0,0,0"/>
                 </StackPanel>
 
-                <!-- Підказка "Що захистити?" -->
-                <TextBlock x:Name="TxtHint2" Grid.Row="2"
-                           Text="ЩО ЗАХИСТИТИ?"
-                           FontFamily="{StaticResource PF}" FontSize="19"
-                           Foreground="#8B6914"
-                           HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                <TextBlock x:Name="TxtHint2" Grid.Row="2" Text="ЩО ЗАХИСТИТИ?" FontFamily="{StaticResource PF}" FontSize="19" Foreground="white" HorizontalAlignment="Center" Margin="0,0,0,8"/>
 
-                <!-- Кнопки захисту -->
-                <StackPanel x:Name="DefendPanel" Grid.Row="3"
-                            Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,12">
-                    <Button x:Name="BtnDefHead"    Content="🎯  ГОЛОВА"  Width="220" Height="50" Style="{StaticResource BB}" Click="DefBtn_Click" Tag="Head"/>
-                    <Button x:Name="BtnDefChest"   Content="🛡  ГРУДИ"   Width="220" Height="50" Style="{StaticResource BB}" Click="DefBtn_Click" Tag="Chest"   Margin="8,0,0,0"/>
-                    <Button x:Name="BtnDefStomach" Content="💢  ЖИВІТ"   Width="220" Height="50" Style="{StaticResource BB}" Click="DefBtn_Click" Tag="Stomach" Margin="8,0,0,0"/>
-                    <Button x:Name="BtnDefLegs"    Content="🦵  НОГИ"    Width="220" Height="50" Style="{StaticResource BB}" Click="DefBtn_Click" Tag="Legs"    Margin="8,0,0,0"/>
+                <StackPanel x:Name="DefendPanel" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,12">
+                    <Button x:Name="BtnDefHead" Content="🎯  ГОЛОВА" Width="220" Height="50" FontSize="20" Style="{StaticResource BattleButtonStyle}" Click="DefBtn_Click" Tag="Head"/>
+                    <Button x:Name="BtnDefChest" Content="🛡  ГРУДИ" Width="220" Height="50" FontSize="20" Style="{StaticResource BattleButtonStyle}" Click="DefBtn_Click" Tag="Chest" Margin="8,0,0,0"/>
+                    <Button x:Name="BtnDefStomach" Content="💢  ЖИВІТ" Width="220" Height="50" FontSize="20" Style="{StaticResource BattleButtonStyle}" Click="DefBtn_Click" Tag="Stomach" Margin="8,0,0,0"/>
+                    <Button x:Name="BtnDefLegs" Content="🦵  НОГИ" Width="220" Height="50" FontSize="20" Style="{StaticResource BattleButtonStyle}" Click="DefBtn_Click" Tag="Legs" Margin="8,0,0,0"/>
                 </StackPanel>
 
-                <!-- Нижній ряд: Атакувати / Інвентар / Втеча -->
                 <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button x:Name="BtnFight"
-                            Content="⚔  АТАКУВАТИ"
-                            Width="280" Height="52"
-                            Style="{StaticResource BB}"
-                            IsEnabled="False"
-                            Click="BtnFight_Click"
-                            Margin="0,0,16,0"/>
-                    <Button x:Name="BtnInventory"
-                            Content="🎒  ІНВЕНТАР"
-                            Width="220" Height="52"
-                            Style="{StaticResource BB_Sm}"
-                            Click="BtnInventory_Click"
-                            Margin="0,0,16,0"/>
-                    <Button x:Name="BtnFlee"
-                            Content="🏃  ВТЕКТИ"
-                            Width="220" Height="52"
-                            Style="{StaticResource BB_Sm}"
-                            Click="BtnFlee_Click"/>
+                    <Button x:Name="BtnFight" Content="⚔  АТАКУВАТИ" Width="280" Height="52" FontSize="20" Style="{StaticResource BattleButtonStyle}" IsEnabled="False" Click="BtnFight_Click" Margin="0,0,16,0"/>
+                    <Button x:Name="BtnInventory" Content="🎒  ІНВЕНТАР" Width="220" Height="52" FontSize="17" Style="{StaticResource BattleButtonStyle}" Click="BtnInventory_Click" Margin="0,0,16,0"/>
+                    <Button x:Name="BtnFlee" Content="🏃  ВТЕКТИ" Width="220" Height="52" FontSize="17" Style="{StaticResource BattleButtonStyle}" Click="BtnFlee_Click"/>
                 </StackPanel>
             </Grid>
         </Border>
 
-        <!-- ═══════════════════════════════════════════════════════════════════
-             ОВЕРЛЕЙ: Інвентар
-             ═══════════════════════════════════════════════════════════════════ -->
         <Grid x:Name="InvOverlay" Background="#CC000000" Visibility="Collapsed">
-            <Border Width="660" Height="580"
-                    Background="#12100A" BorderBrush="#8B6914" BorderThickness="3"
-                    HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Border Width="660" Height="580" Background="#12100A" BorderBrush="#8B6914" BorderThickness="3" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid Margin="24">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0"
-                               Text="ЇЖА ТА ЗІЛЛЯ"
-                               FontFamily="{StaticResource PF}" FontSize="24"
-                               Foreground="#D4A017"
-                               HorizontalAlignment="Center" Margin="0,0,0,16"/>
+                    <TextBlock Grid.Row="0" Text="ЇЖА ТА ЗІЛЛЯ" FontFamily="{StaticResource PF}" FontSize="24" Foreground="#D4A017" HorizontalAlignment="Center" Margin="0,0,0,16"/>
                     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                         <StackPanel x:Name="FoodList"/>
                     </ScrollViewer>
-                    <Button Grid.Row="2" Content="ЗАКРИТИ"
-                            Width="200" Height="46"
-                            Style="{StaticResource BB_Sm}"
-                            HorizontalAlignment="Center" Margin="0,16,0,0"
-                            Click="BtnCloseInv_Click"/>
+                    <Button Grid.Row="2" Content="ЗАКРИТИ" Width="200" Height="46" FontSize="17" Style="{StaticResource BattleButtonStyle}" HorizontalAlignment="Center" Margin="0,16,0,0" Click="BtnCloseInv_Click"/>
                 </Grid>
             </Border>
         </Grid>
 
-        <!-- ═══════════════════════════════════════════════════════════════════
-             ОВЕРЛЕЙ: Кінець бою
-             ═══════════════════════════════════════════════════════════════════ -->
         <Grid x:Name="EndOverlay" Background="#DD000000" Visibility="Collapsed">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock x:Name="TxtEndTitle"
-                           FontFamily="{StaticResource PF}" FontSize="52"
-                           Foreground="#FFD700"
-                           HorizontalAlignment="Center" Margin="0,0,0,16"/>
-                <TextBlock x:Name="TxtEndDetails"
-                           FontFamily="{StaticResource PF}" FontSize="22"
-                           Foreground="#EEE"
-                           HorizontalAlignment="Center" Margin="0,0,0,32"/>
-                <Button x:Name="BtnEndContinue"
-                        Content="ПРОДОВЖИТИ"
-                        Width="280" Height="58"
-                        Style="{StaticResource BB}"
-                        HorizontalAlignment="Center"
-                        Click="BtnEndContinue_Click"/>
+                <TextBlock x:Name="TxtEndTitle" FontFamily="{StaticResource PF}" FontSize="52" Foreground="white" HorizontalAlignment="Center" Margin="0,0,0,16"/>
+                <TextBlock x:Name="TxtEndDetails" FontFamily="{StaticResource PF}" FontSize="22" Foreground="#EEE" HorizontalAlignment="Center" Margin="0,0,0,32"/>
+                <Button x:Name="BtnEndContinue" Content="ПРОДОВЖИТИ" Width="280" Height="58" FontSize="20" Style="{StaticResource BattleButtonStyle}" HorizontalAlignment="Center" Click="BtnEndContinue_Click"/>
             </StackPanel>
         </Grid>
     </Grid>

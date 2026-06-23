@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
+             RenderOptions.BitmapScalingMode="NearestNeighbor"
              Width="1920" Height="1080">
 
     <UserControl.Resources>
@@ -13,23 +14,28 @@
             <Setter Property="GroupName" Value="InvFilter"/>
             <Setter Property="FontFamily" Value="{StaticResource PF}"/>
             <Setter Property="FontSize" Value="15"/>
-            <Setter Property="Foreground" Value="#D4A017"/>
+            <Setter Property="Foreground" Value="White"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Padding" Value="14,8"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RadioButton">
-                        <Border x:Name="Bd" Background="#1A1208" BorderBrush="#5A4A20" BorderThickness="2">
+                        <Border x:Name="Bd" BorderThickness="0">
+                            <Border.Background>
+                                <ImageBrush ImageSource="pack://application:,,,/Assets/Images/UI/Button2.png" Stretch="Fill"/>
+                            </Border.Background>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
                                               Margin="{TemplateBinding Padding}"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="#3A2E14"/>
-                                <Setter TargetName="Bd" Property="BorderBrush" Value="#FFD700"/>
+                                <Setter TargetName="Bd" Property="Opacity" Value="1.0"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bd" Property="BorderBrush" Value="#D4A017"/>
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.85"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.6"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -40,23 +46,25 @@
         <Style x:Key="ActionBtn" TargetType="Button">
             <Setter Property="FontFamily" Value="{StaticResource PF}"/>
             <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="#1A1208"/>
+            <Setter Property="Foreground" Value="White"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Padding" Value="12,6"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="Bd" Background="#D4A017" CornerRadius="2">
+                        <Border x:Name="Bd" BorderThickness="0">
+                            <Border.Background>
+                                <ImageBrush ImageSource="pack://application:,,,/Assets/Images/UI/Button.png" Stretch="Fill"/>
+                            </Border.Background>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
                                               Margin="{TemplateBinding Padding}"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="#FFD700"/>
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.85"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="Bd" Property="Background" Value="#5A4A20"/>
-                                <Setter Property="Foreground" Value="#8A8A8A"/>
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.4"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -66,24 +74,24 @@
     </UserControl.Resources>
 
     <Grid>
-        <!-- Затемнення фону -->
         <Rectangle Fill="#CC000000" MouseDown="Backdrop_MouseDown"/>
 
-        <!-- Головна панель -->
-        <Border Width="1500" Height="880" HorizontalAlignment="Center" VerticalAlignment="Center"
-                Background="#1A1208" BorderBrush="#5A4A20" BorderThickness="3">
-            <Grid Margin="24">
+        <Border Width="1500" Height="880" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0">
+            <Border.Background>
+                <ImageBrush ImageSource="pack://application:,,,/Assets/Images/UI/MainPanel.png" Stretch="Fill"/>
+            </Border.Background>
+
+            <Grid Margin="32">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <!-- Заголовок -->
                 <Grid Grid.Row="0" Margin="0,0,0,16">
-                    <TextBlock Text="ІНВЕНТАР" FontFamily="{StaticResource PF}" FontSize="28"
-                               Foreground="#D4A017" HorizontalAlignment="Left"/>
+                    <TextBlock Text="ІНВЕНТАР" FontFamily="{StaticResource PF}" FontSize="29"
+                               Foreground="White" HorizontalAlignment="Left"/>
 
-                    <Border Background="#1A1208" BorderBrush="#FFD700" BorderThickness="2"
+                    <Border Background="Transparent" BorderThickness="0"
                             Padding="14,6" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Assets/Images/Items/Gold.png" Width="22" Height="22" Margin="0,0,8,0"/>
@@ -92,11 +100,22 @@
                         </StackPanel>
                     </Border>
 
-                    <Button x:Name="BtnClose" Content="✕" Width="40" Height="40"
-                            HorizontalAlignment="Right"
-                            FontFamily="{StaticResource PF}" FontSize="18"
-                            Foreground="#D4A017" Background="#1A1208" BorderBrush="#5A4A20" BorderThickness="2"
-                            Cursor="Hand" Click="BtnClose_Click"/>
+                    <Button x:Name="BtnClose" Width="40" Height="40" HorizontalAlignment="Right" Cursor="Hand" Click="BtnClose_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="Bd" BorderThickness="0">
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="pack://application:,,,/Assets/Images/UI/Close.png" Stretch="Fill"/>
+                                    </Border.Background>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Bd" Property="Opacity" Value="0.8"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
                 </Grid>
 
                 <Grid Grid.Row="1">
@@ -106,104 +125,101 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- ЛІВА ЧАСТИНА: персонаж + слоти екіпіровки -->
-                    <Border Grid.Column="0" Background="#12100A" BorderBrush="#5A4A20" BorderThickness="2">
+                    <Border Grid.Column="0" BorderThickness="0">
+                        <Border.Background>
+                            <ImageBrush ImageSource="pack://application:,,,/Assets/Images/UI/CharBg.png" Stretch="Fill"/>
+                        </Border.Background>
+
                         <StackPanel Margin="20" HorizontalAlignment="Center">
                             <TextBlock x:Name="TxtPlayerName" Text="Герой" FontFamily="{StaticResource PF}"
-                                       FontSize="20" Foreground="#D4A017" HorizontalAlignment="Center" Margin="0,0,0,16"/>
-
+                                       FontSize="20" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,16"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <!-- HP-бар (вертикальний) -->
                                 <Border Grid.Column="0" Width="26" Height="260"
                                         Background="#2A1010" BorderBrush="#5A4A20" BorderThickness="2"
-                                        VerticalAlignment="Bottom" Margin="0,0,16,0">
+                                        VerticalAlignment="Bottom" Margin="10,0,10,0">
                                     <Grid VerticalAlignment="Bottom">
                                         <Rectangle x:Name="HpBarFill" Fill="#C0392B" VerticalAlignment="Bottom" Height="260"/>
                                     </Grid>
                                 </Border>
 
-                                <!-- Силует персонажа (блочний стиль, як в бою) -->
-                                <Canvas Grid.Column="1" Width="200" Height="300">
-                                    <Rectangle Canvas.Left="60" Canvas.Top="0"  Width="80" Height="80"
-                                               Fill="#C8956C" Stroke="#4A2010" StrokeThickness="3"/>
-                                    <Rectangle x:Name="ArmorRect" Canvas.Left="40" Canvas.Top="80" Width="120" Height="110"
-                                               Fill="#3A5A8A" Stroke="#1A1208" StrokeThickness="3"/>
-                                    <Rectangle Canvas.Left="45" Canvas.Top="190" Width="45" Height="110"
-                                               Fill="#2A2A3A" Stroke="#1A1208" StrokeThickness="2"/>
-                                    <Rectangle Canvas.Left="110" Canvas.Top="190" Width="45" Height="110"
-                                               Fill="#2A2A3A" Stroke="#1A1208" StrokeThickness="2"/>
-                                    <!-- Зброя в руці -->
-                                    <Rectangle x:Name="WeaponRect" Canvas.Left="165" Canvas.Top="90" Width="14" Height="90"
-                                               Fill="#9A9A9A" Stroke="#1A1208" StrokeThickness="2" Visibility="Collapsed"/>
-                                </Canvas>
+                                <Image x:Name="ImgPlayerCharacter" 
+                                       Grid.Column="1" 
+                                       Width="200" Height="260" 
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                       Stretch="Uniform"/>
                             </Grid>
 
-                            <!-- Слот зброї: іконка + смуга-слот -->
-                            <Border Background="#1A1208" BorderBrush="#5A4A20" BorderThickness="2" Height="46" Margin="0,20,0,0">
+                            <Border BorderThickness="0" Height="46" Margin="0,20,0,0">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="pack://application:,,,/Assets/Images/UI/ESlot.png" Stretch="Fill"/>
+                                </Border.Background>
+
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="46"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Background="#2A2410" BorderBrush="#5A4A20" BorderThickness="0,0,2,0">
-                                        <TextBlock Text="⚔" FontSize="20" Foreground="#D4A017"
-                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                    <Grid Grid.Column="1" Margin="10,0">
+
+                                    <TextBlock Grid.Column="0" Text="⚔" FontSize="20" Foreground="White"
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                                    <Grid Grid.Column="1" Margin="20,0">
                                         <TextBlock x:Name="TxtWeaponSlot" Text="Не одягнено" FontFamily="{StaticResource PF}"
-                                                   FontSize="14" Foreground="#D4A017" TextWrapping="NoWrap"
-                                                   TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                       FontSize="14" Foreground="White" TextWrapping="NoWrap"
+                       TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
                                         <Button x:Name="BtnUnequipWeapon" Content="✕" Width="26" Height="26" Padding="0"
-                                                Style="{StaticResource ActionBtn}"
-                                                HorizontalAlignment="Right" Click="BtnUnequipWeapon_Click" Visibility="Collapsed"/>
+                    Style="{StaticResource ActionBtn}"
+                    HorizontalAlignment="Right" Click="BtnUnequipWeapon_Click" Visibility="Collapsed"/>
                                     </Grid>
                                 </Grid>
                             </Border>
 
-                            <!-- Слот броні: іконка + смуга-слот -->
-                            <Border Background="#1A1208" BorderBrush="#5A4A20" BorderThickness="2" Height="46" Margin="0,10,0,0">
+                            <Border BorderThickness="0" Height="46" Margin="0,10,0,0">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="pack://application:,,,/Assets/Images/UI/ESlot.png" Stretch="Fill"/>
+                                </Border.Background>
+
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="46"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Background="#2A2410" BorderBrush="#5A4A20" BorderThickness="0,0,2,0">
-                                        <TextBlock Text="🛡" FontSize="18" Foreground="#D4A017"
-                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                    <Grid Grid.Column="1" Margin="10,0">
+
+                                    <TextBlock Grid.Column="0" Text="🛡" FontSize="18" Foreground="White"
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                                    <Grid Grid.Column="1" Margin="20,0">
                                         <TextBlock x:Name="TxtArmorSlot" Text="Не одягнено" FontFamily="{StaticResource PF}"
-                                                   FontSize="14" Foreground="#D4A017" TextWrapping="NoWrap"
-                                                   TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                       FontSize="14" Foreground="White" TextWrapping="NoWrap"
+                       TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
                                         <Button x:Name="BtnUnequipArmor" Content="✕" Width="26" Height="26" Padding="0"
-                                                Style="{StaticResource ActionBtn}"
-                                                HorizontalAlignment="Right" Click="BtnUnequipArmor_Click" Visibility="Collapsed"/>
+                    Style="{StaticResource ActionBtn}"
+                    HorizontalAlignment="Right" Click="BtnUnequipArmor_Click" Visibility="Collapsed"/>
                                     </Grid>
                                 </Grid>
                             </Border>
 
-                            <!-- Рівень -->
                             <TextBlock x:Name="TxtPlayerLevel" Text="РІВЕНЬ 1" FontFamily="{StaticResource PF}"
-                                       FontSize="18" Foreground="#D4A017" HorizontalAlignment="Center" Margin="0,18,0,0"/>
+                                       FontSize="18" Foreground="White" HorizontalAlignment="Center" Margin="0,18,0,0"/>
 
-                            <!-- Підсумкові характеристики -->
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
                                 <TextBlock x:Name="TxtTotalAttack" Text="⚔ 15" FontFamily="{StaticResource PF}"
-                                           FontSize="14" Foreground="#C0392B" Margin="0,0,16,0"/>
+                                           FontSize="14" Foreground="White" Margin="0,0,16,0"/>
                                 <TextBlock x:Name="TxtTotalDefense" Text="🛡 5" FontFamily="{StaticResource PF}"
-                                           FontSize="14" Foreground="#2E7D32" Margin="0,0,16,0"/>
+                                           FontSize="14" Foreground="White" Margin="0,0,16,0"/>
                                 <TextBlock x:Name="TxtTotalHealth" Text="♥ 100/100" FontFamily="{StaticResource PF}"
-                                           FontSize="14" Foreground="#D4A017"/>
+                                           FontSize="14" Foreground="White"/>
                             </StackPanel>
                         </StackPanel>
                     </Border>
 
-                    <!-- ПРАВА ЧАСТИНА: фільтри + список предметів -->
                     <Grid Grid.Column="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -211,13 +227,17 @@
                         </Grid.RowDefinitions>
 
                         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,12">
-                            <RadioButton x:Name="FilterAll"      Content="УСІ"   Style="{StaticResource FilterBtn}" IsChecked="True" Checked="Filter_Changed" Margin="0,0,8,0"/>
+                            <RadioButton x:Name="FilterAll"     Content="УСІ"   Style="{StaticResource FilterBtn}" IsChecked="True" Checked="Filter_Changed" Margin="0,0,8,0"/>
                             <RadioButton x:Name="FilterWeapon"   Content="ЗБРОЯ" Style="{StaticResource FilterBtn}" Checked="Filter_Changed" Margin="0,0,8,0"/>
                             <RadioButton x:Name="FilterArmor"    Content="БРОНЯ" Style="{StaticResource FilterBtn}" Checked="Filter_Changed" Margin="0,0,8,0"/>
                             <RadioButton x:Name="FilterFood"     Content="ЇЖА"   Style="{StaticResource FilterBtn}" Checked="Filter_Changed"/>
                         </StackPanel>
 
-                        <Border Grid.Row="1" Background="#12100A" BorderBrush="#5A4A20" BorderThickness="2">
+                        <Border Grid.Row="1" BorderThickness="0">
+                            <Border.Background>
+                                <ImageBrush ImageSource="pack://application:,,,/Assets/Images/UI/ItemsBg.png" Stretch="Fill"/>
+                            </Border.Background>
+
                             <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="4">
                                 <ItemsControl x:Name="ItemsList">
                                     <ItemsControl.ItemTemplate>
@@ -239,14 +259,14 @@
 
                                                     <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="12,0">
                                                         <TextBlock Text="{Binding Name}" FontFamily="{StaticResource PF}"
-                                                                   FontSize="16" Foreground="#D4A017"/>
+                                                                   FontSize="16" Foreground="White"/>
                                                         <TextBlock Text="{Binding Description}" FontFamily="{StaticResource PF}"
-                                                                   FontSize="12" Foreground="#8B6914" TextWrapping="Wrap" Margin="0,2,0,0"/>
+                                                                   FontSize="12" Foreground="White" TextWrapping="Wrap" Margin="0,2,0,0" Opacity="0.7"/>
                                                     </StackPanel>
 
                                                     <TextBlock Grid.Column="2" Text="{Binding StatText}"
                                                                FontFamily="{StaticResource PF}" FontSize="14"
-                                                               Foreground="#D4A017" VerticalAlignment="Center"/>
+                                                               Foreground="White" VerticalAlignment="Center"/>
 
                                                     <Button Grid.Column="3" Content="{Binding ActionLabel}"
                                                             Style="{StaticResource ActionBtn}"

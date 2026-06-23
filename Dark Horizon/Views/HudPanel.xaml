@@ -4,21 +4,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
+             RenderOptions.BitmapScalingMode="NearestNeighbor"
              Width="260" Height="260">
 
     <UserControl.Resources>
         <FontFamily x:Key="PF">pack://application:,,,/Assets/Fonts/#7:12 Serif Regular</FontFamily>
 
         <Style x:Key="HudBtn" TargetType="Button">
-            <Setter Property="Background"      Value="#1A1208"/>
-            <Setter Property="BorderBrush"     Value="#5A4A20"/>
-            <Setter Property="BorderThickness"  Value="2"/>
-            <Setter Property="Foreground"      Value="#D4A017"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="pack://application:,,,/Assets/Images/UI/Button.png" Stretch="Fill"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderThickness"  Value="0"/>
+            <Setter Property="Foreground"      Value="White"/>
             <Setter Property="FontFamily"      Value="{StaticResource PF}"/>
-            <Setter Property="FontSize"        Value="16"/>
+            <Setter Property="FontSize"        Value="15"/>
             <Setter Property="Cursor"          Value="Hand"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="Padding"         Value="12,0,0,0"/>
+            <Setter Property="Padding"         Value="25,0,0,0"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -31,8 +35,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bd" Property="Background"  Value="#2E2510"/>
-                                <Setter TargetName="Bd" Property="BorderBrush" Value="#FFD700"/>
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.85"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -42,7 +45,6 @@
     </UserControl.Resources>
 
     <Grid>
-        <!-- Тригер наведення (весь квадрат 260x260) -->
         <Grid.Triggers>
             <EventTrigger RoutedEvent="MouseEnter">
                 <BeginStoryboard>
@@ -78,62 +80,59 @@
             </EventTrigger>
         </Grid.Triggers>
 
-        <!-- Іконка-квадрат (видна коли меню закрите) -->
         <Border x:Name="HudIcon"
-                Width="70" Height="70"
-                HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                Background="#1A1208" BorderBrush="#8B6914" BorderThickness="2">
-            <TextBlock Text="☰"
-                       FontFamily="{StaticResource PF}" FontSize="32"
-                       Foreground="#D4A017"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                Margin="10,0,0,10"
+                Width="80" Height="80"
+                HorizontalAlignment="Left" VerticalAlignment="Bottom">
+            <Border.Background>
+                <ImageBrush ImageSource="pack://application:,,,/Assets/Images/UI/HudIcon.png" Stretch="Fill"/>
+            </Border.Background>
         </Border>
 
-        <!-- Меню (видне при наведенні) -->
         <Border x:Name="MenuPanel"
                 Width="240" Height="240"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                Background="#12100A" BorderBrush="#8B6914" BorderThickness="2"
                 Visibility="Collapsed" Opacity="0">
-            <StackPanel Margin="8">
+            <Border.Background>
+                <ImageBrush ImageSource="pack://application:,,,/Assets/Images/UI/MenuPanel.png" Stretch="Fill"/>
+            </Border.Background>
+
+            <StackPanel Margin="12,16,12,12">
                 <Button x:Name="BtnQuests"
                         Content="📜  КВЕСТИ"
-                        Height="50" Margin="0,4,0,0"
+                        Height="48" Margin="0,4,0,0"
                         Style="{StaticResource HudBtn}"
                         Click="BtnQuests_Click"/>
                 <Button x:Name="BtnMap"
                         Content="🗺  МАПА"
-                        Height="50" Margin="0,4,0,0"
+                        Height="48" Margin="0,4,0,0"
                         Style="{StaticResource HudBtn}"
                         Click="BtnMap_Click"/>
                 <Button x:Name="BtnInventory"
                         Content="🎒  ІНВЕНТАР"
-                        Height="50" Margin="0,4,0,0"
+                        Height="48" Margin="0,4,0,0"
                         Style="{StaticResource HudBtn}"
                         Click="BtnInventory_Click"/>
                 <Button x:Name="BtnAdventure"
                         Content="⚔  ПОШУК ПРИГОД"
-                        Height="50" Margin="0,4,0,0"
+                        Height="48" Margin="0,4,0,0"
                         Style="{StaticResource HudBtn}"
                         Click="BtnAdventure_Click"/>
             </StackPanel>
         </Border>
 
-        <!-- Спливаюче повідомлення (мирна зона / тощо).
-             Зроблено через Popup, а не звичайний Border всередині Grid:
-             Popup рендериться в окремому шарі поверх усього вікна і ніколи
-             не обрізається/не ховається межами цього маленького 260x260 контролу. -->
         <Popup x:Name="ToastPopup"
-               PlacementTarget="{Binding ElementName=HudIcon}"
+               PlacementTarget="{Binding ElementName=MenuPanel}"
                Placement="Top"
-               VerticalOffset="-10"
+               VerticalOffset="-5" 
+               HorizontalOffset="10"
                AllowsTransparency="True"
                IsOpen="False">
-            <Border Background="#1A1208" BorderBrush="#FFD700" BorderThickness="2"
+            <Border Background="#353535" BorderBrush="#292929" BorderThickness="2"
                     Padding="14,8" MaxWidth="460">
                 <TextBlock x:Name="TxtToast"
                            FontFamily="{StaticResource PF}" FontSize="16"
-                           Foreground="#FFD700" TextWrapping="Wrap"/>
+                           Foreground="White" TextWrapping="Wrap"/>
             </Border>
         </Popup>
     </Grid>
