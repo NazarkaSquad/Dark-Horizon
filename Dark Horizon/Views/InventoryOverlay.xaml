@@ -140,7 +140,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Border Grid.Column="0" Width="26" Height="260"
-                                        Background="#2A1010" BorderBrush="#5A4A20" BorderThickness="2"
+                                        Background="#292929" BorderBrush="#1F1F1F" BorderThickness="2"
                                         VerticalAlignment="Bottom" Margin="10,0,10,0">
                                     <Grid VerticalAlignment="Bottom">
                                         <Rectangle x:Name="HpBarFill" Fill="#C0392B" VerticalAlignment="Bottom" Height="260"/>
@@ -242,7 +242,7 @@
                                 <ItemsControl x:Name="ItemsList">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Border Background="#1A1208" BorderBrush="#3A3020" BorderThickness="1"
+                                            <Border Background="#292929" BorderBrush="#1F1F1F" BorderThickness="1"
                                                     Margin="8" Padding="10">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>

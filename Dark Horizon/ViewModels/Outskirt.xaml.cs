@@ -20,16 +20,15 @@ namespace Dark_Horizon.Views;
             }
         }
 
-        private void BtnToLeftLoc_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Тут буде перехід в ліву локацію!");
-        }
-
-        private void BtnToRightLoc_Click(object sender, RoutedEventArgs e)
-        {
+        // Нижня стрілочка
             MessageBox.Show("Тут буде перехід в праву локацію!");
         }
 
+        // Нижня стрілочка
+            MessageBox.Show("Тут буде перехід в праву локацію!");
+        }
+
+        // Нижня стрілочка
         private void BtnToBottomLoc_Click(object sender, RoutedEventArgs e)
         {
             if (Application.Current.MainWindow is MainWindow mainWindow)

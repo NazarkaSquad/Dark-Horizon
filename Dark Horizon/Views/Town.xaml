@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:views="clr-namespace:Dark_Horizon.Views"
              mc:Ignorable="d"
+             RenderOptions.BitmapScalingMode="NearestNeighbor"
              d:DesignHeight="1080" d:DesignWidth="1920">
 
     <Canvas Background="#1A1A1A">
@@ -24,30 +25,27 @@
             </Style>
         </Canvas.Resources>
 
-        <!-- Фон -->
         <Image Source="pack://application:,,,/Assets/Images/Backgrounds/Town.png"
-               Width="1920" Height="1080" Stretch="UniformToFill"
-               Canvas.Left="0" Canvas.Top="0"/>
+               Width="1920" Height="1188" Stretch="UniformToFill" Canvas.Top="-107" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-        <!-- Будівлі -->
-        <Button x:Name="BtnTavern"    Width="350" Height="400" Canvas.Left="134"  Canvas.Top="45"  Click="BtnTavern_Click"/>
-        <Button x:Name="BtnForge"     Width="350" Height="400" Canvas.Left="1408" Canvas.Top="96"  Click="BtnForge_Click"/>
+        <Button x:Name="BtnTavern"    Width="350" Height="400" Canvas.Left="262"  Canvas.Top="166"  Click="BtnTavern_Click"/>
+        <Button x:Name="BtnForge"     Width="350" Height="400" Canvas.Left="1309" Canvas.Top="140"  Click="BtnForge_Click"/>
         <Button x:Name="BtnAlchemist" Width="450" Height="400" Canvas.Left="1378" Canvas.Top="604" Click="BtnAlchemist_Click"/>
 
-        <!-- Вихід -->
         <Button x:Name="BtnLeaveTown" Width="70" Height="115"
                 Canvas.Left="925" Canvas.Top="889"
                 Background="Transparent" BorderThickness="0" Cursor="Hand"
                 Click="BtnLeaveTown_Click">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
-                    <Grid><Image Source="pack://application:,,,/Assets/Images/UI/ArrowD.png"
-                                 Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor"/></Grid>
+                    <Grid>
+                        <Image Source="pack://application:,,,/Assets/Images/UI/ArrowD.png"
+                                 Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                    </Grid>
                 </ControlTemplate>
             </Button.Template>
         </Button>
 
-        <!-- HUD (мирна зона — Пошук пригод покаже помилку) -->
         <views:HudPanel x:Name="Hud"
                         Canvas.Left="0" Canvas.Top="820"
                         CurrentLocationKey="Town"/>

@@ -231,7 +231,6 @@
 
         </Grid>
 
-        <!-- HUD (завжди видимий, окрім бою) -->
         <local:HudPanel x:Name="Hud"
                         HorizontalAlignment="Left" VerticalAlignment="Bottom"
                         CurrentLocationKey="Town"/>

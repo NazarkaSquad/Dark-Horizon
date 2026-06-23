@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:views="clr-namespace:Dark_Horizon.Views"
              mc:Ignorable="d"
+             RenderOptions.BitmapScalingMode="NearestNeighbor"
              d:DesignHeight="1080" d:DesignWidth="1920">
 
     <Grid>
@@ -13,7 +14,6 @@
                RenderOptions.BitmapScalingMode="NearestNeighbor"/>
 
         <Canvas>
-            <!-- Стрілка праворуч — на Ліс -->
             <Button x:Name="BtnToForest"
                     Width="115" Height="70"
                     Canvas.Left="1774" Canvas.Top="505"
@@ -27,7 +27,6 @@
                 </Button.Template>
             </Button>
 
-            <!-- HUD-панель (зліва знизу) -->
             <views:HudPanel x:Name="Hud"
                             Canvas.Left="0" Canvas.Top="820"
                             CurrentLocationKey="Swamp"/>

@@ -49,17 +49,13 @@ namespace Dark_Horizon.Classes.Core
             forest.Enemies.AddRange(new[]
             {
                 Enemy.CreateWolf(),
-                Enemy.CreateWolf(),
-                Enemy.CreateBandit(),
                 Enemy.CreateSkeleton()
             });
 
             swamp.Enemies.AddRange(new[]
             {
                 Enemy.CreateSlug(),
-                Enemy.CreateSlug(),
                 Enemy.CreateSkeleton(),
-                Enemy.CreateOgre()
             });
 
             city.North = tavern;

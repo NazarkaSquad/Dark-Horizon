@@ -73,7 +73,7 @@
                     <TextBlock x:Name="TxtPlayerName" Text="Герой" FontFamily="{StaticResource PF}" FontSize="26" Foreground="white" VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <Border Width="560" Height="38" Background="#0D0A05" BorderBrush="#1F1F1F" BorderThickness="2" HorizontalAlignment="Left">
+                <Border Width="560" Height="38" Background="#292929" BorderBrush="#1F1F1F" BorderThickness="2" HorizontalAlignment="Left">
                     <Grid>
                         <Rectangle x:Name="PlayerHpFill" Fill="#C0392B" HorizontalAlignment="Left" Width="556"/>
                         <TextBlock x:Name="TxtPlayerHp" FontFamily="{StaticResource PF}" FontSize="15" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -91,7 +91,7 @@
                     </Border>
                 </StackPanel>
 
-                <Border Width="560" Height="38" Background="#0D0A05" BorderBrush="#1F1F1F" BorderThickness="2" HorizontalAlignment="Right">
+                <Border Width="560" Height="38" Background="#292929" BorderBrush="#1F1F1F" BorderThickness="2" HorizontalAlignment="Right">
                     <Grid>
                         <Rectangle x:Name="EnemyHpFill" Fill="#8B2020" HorizontalAlignment="Left" Width="556"/>
                         <TextBlock x:Name="TxtEnemyHp" FontFamily="{StaticResource PF}" FontSize="15" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -167,14 +167,14 @@
         </Border>
 
         <Grid x:Name="InvOverlay" Background="#CC000000" Visibility="Collapsed">
-            <Border Width="660" Height="580" Background="#12100A" BorderBrush="#8B6914" BorderThickness="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Border Width="660" Height="580" Background="#292929" BorderBrush="#1F1F1F" BorderThickness="3" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid Margin="24">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="ЇЖА ТА ЗІЛЛЯ" FontFamily="{StaticResource PF}" FontSize="24" Foreground="#D4A017" HorizontalAlignment="Center" Margin="0,0,0,16"/>
+                    <TextBlock Grid.Row="0" Text="ЇЖА ТА ЗІЛЛЯ" FontFamily="{StaticResource PF}" FontSize="24" Foreground="white" HorizontalAlignment="Center" Margin="0,0,0,16"/>
                     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                         <StackPanel x:Name="FoodList"/>
                     </ScrollViewer>

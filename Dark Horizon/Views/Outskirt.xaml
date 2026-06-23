@@ -4,11 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:views="clr-namespace:Dark_Horizon.Views"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             
              Width="1920" Height="1080">
 
     <Grid>
-        <!-- Canvas для точного позиціонування стрілочок-кнопок поверх малюнку -->
         <Canvas>
 
             <Image Source="pack://application:,,,/Assets/Images/Backgrounds/Outskirt.png" 
@@ -16,12 +16,11 @@
        Stretch="UniformToFill" 
        Canvas.Left="0" Canvas.Top="0"/>
 
-            <!-- СТРІЛОЧКА ВГОРУ (Вертає назад у місто) -->
             <Button x:Name="BtnToCity" 
                     Width="70" Height="115" 
-                    Canvas.Left="969" Canvas.Top="70"
+                    Canvas.Left="934" Canvas.Top="70"
                 Background="Transparent" BorderBrush="Transparent" Cursor="Hand"
-                    Click="BtnToCity_Click" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    Click="BtnToCity_Click" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Grid>
@@ -32,43 +31,13 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button x:Name="BtnToLeftLoc" 
-                    Width="115" Height="70" 
-                    Canvas.Left="67" Canvas.Top="505" 
-                    Background="Transparent" BorderBrush="Transparent" Cursor="Hand"
-                    Click="BtnToLeftLoc_Click" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <Image Source="pack://application:,,,/Assets/Images/UI/ArrowL.png" 
-                                   Stretch="Fill" 
-                                   RenderOptions.BitmapScalingMode="NearestNeighbor"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
 
-            <Button x:Name="BtnToRightLoc" 
-                    Width="115" Height="70" 
-                    Canvas.Left="1771" Canvas.Top="505" 
-                    Background="Transparent" BorderBrush="Transparent" Cursor="Hand"
-                    Click="BtnToRightLoc_Click" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <Image Source="pack://application:,,,/Assets/Images/UI/ArrowR.png" 
-                                   Stretch="Fill" 
-                                   RenderOptions.BitmapScalingMode="NearestNeighbor"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
 
             <Button x:Name="BtnToBottomLoc" 
                     Width="70" Height="115" 
-                    Canvas.Left="969" Canvas.Top="897" 
+                    Canvas.Left="934" Canvas.Top="915" 
                     Background="Transparent" BorderBrush="Transparent" Cursor="Hand"
-                    Click="BtnToBottomLoc_Click" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    Click="BtnToBottomLoc_Click" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Grid>
@@ -80,7 +49,6 @@
                 </Button.Template>
             </Button>
 
-            <!-- HUD (завжди видимий, окрім бою) -->
             <views:HudPanel x:Name="Hud"
                             Canvas.Left="0" Canvas.Top="820"
                             CurrentLocationKey="Forest"/>

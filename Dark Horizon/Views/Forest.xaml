@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:views="clr-namespace:Dark_Horizon.Views"
              mc:Ignorable="d"
+             RenderOptions.BitmapScalingMode="NearestNeighbor"
              Width="1920" Height="1080">
 
     <Grid>
@@ -14,12 +15,11 @@
                RenderOptions.BitmapScalingMode="NearestNeighbor"/>
 
         <Canvas>
-            <!-- Стрілка вгору — на Околиці -->
             <Button x:Name="BtnToOutskirt"
                     Width="70" Height="115"
                     Canvas.Left="925" Canvas.Top="45"
                     Background="Transparent" BorderBrush="Transparent" Cursor="Hand"
-                    Click="BtnToOutskirt_Click">
+                    Click="BtnToOutskirt_Click" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Image Source="pack://application:,,,/Assets/Images/UI/ArrowU.png"
@@ -28,7 +28,6 @@
                 </Button.Template>
             </Button>
 
-            <!-- Стрілка ліворуч — на Болото -->
             <Button x:Name="BtnToLeftLoc"
                     Width="115" Height="70"
                     Canvas.Left="43" Canvas.Top="505"
@@ -42,7 +41,6 @@
                 </Button.Template>
             </Button>
 
-            <!-- HUD-панель (зліва знизу) -->
             <views:HudPanel x:Name="Hud"
                             Canvas.Left="0" Canvas.Top="820"
                             CurrentLocationKey="Forest"/>
